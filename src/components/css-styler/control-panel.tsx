@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Copy } from 'lucide-react';
 import { BasicControls } from './basic-controls';
 import { AdvancedEditor } from './advanced-editor';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertTriangle } from 'lucide-react';
 
 export interface CSSStyles {
   // Typography
@@ -71,9 +69,6 @@ export const ControlPanel = ({ styles, setStyles }: {
 }) => {
   const [mode, setMode] = useState<'basic' | 'advanced'>('basic');
   const [copied, setCopied] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [advancedCSS, setAdvancedCSS] = useState('');
-  const [lastSyncedStyles, setLastSyncedStyles] = useState<CSSStyles>(defaultStyles);
 
   const generateCSS = useCallback(() => {
     return `.styled-element {
@@ -106,7 +101,7 @@ export const ControlPanel = ({ styles, setStyles }: {
   }, [styles]);
 
   const handleCopyCSS = async () => {
-    const css = mode === 'advanced' ? advancedCSS : generateCSS();
+    const css = generateCSS();
     try {
       await navigator.clipboard.writeText(css);
       setCopied(true);
@@ -116,45 +111,65 @@ export const ControlPanel = ({ styles, setStyles }: {
     }
   };
 
-  const handleModeChange = (newMode: 'basic' | 'advanced') => {
-    if (mode !== newMode) {
-      if (newMode === 'advanced') {
-        // Switching to advanced mode - capture current CSS
-        setAdvancedCSS(generateCSS());
-        setLastSyncedStyles({ ...styles });
-      } else {
-        // Switching to basic mode - show alert
-        setShowAlert(true);
-        setTimeout(() => setShowAlert(false), 5000);
+  const handleAdvancedCSSChange = (css: string) => {
+    // Parse CSS and update styles
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(`<style>${css}</style>`, 'text/html');
+    const styleSheet = doc.querySelector('style')?.textContent;
+    
+    if (styleSheet) {
+      const newStyles = { ...styles };
+      const regex = /(\w[\w-]*)\s*:\s*([^;]+);/g;
+      let match;
+      
+      while ((match = regex.exec(styleSheet)) !== null) {
+        const [, property, value] = match;
+        const mappedProperty = mapCSSProperty(property);
+        if (mappedProperty && newStyles.hasOwnProperty(mappedProperty)) {
+          (newStyles as any)[mappedProperty] = value.trim();
+        }
       }
-      setMode(newMode);
+      
+      setStyles(newStyles);
     }
   };
 
-  const handleAdvancedCSSChange = (css: string) => {
-    setAdvancedCSS(css);
-    // Don't sync with basic mode - let user work independently
+  const mapCSSProperty = (cssProperty: string): keyof CSSStyles | null => {
+    const mapping: Record<string, keyof CSSStyles> = {
+      'font-size': 'fontSize',
+      'font-family': 'fontFamily',
+      'font-weight': 'fontWeight',
+      'text-align': 'textAlign',
+      'line-height': 'lineHeight',
+      'letter-spacing': 'letterSpacing',
+      'color': 'textColor',
+      'padding': 'padding',
+      'margin': 'margin',
+      'width': 'width',
+      'height': 'height',
+      'display': 'display',
+      'position': 'position',
+      'background-color': 'backgroundColor',
+      'border-style': 'borderStyle',
+      'border-width': 'borderWidth',
+      'border-color': 'borderColor',
+      'border-radius': 'borderRadius',
+      'box-shadow': 'boxShadow',
+      'opacity': 'opacity',
+    };
+    return mapping[cssProperty] || null;
   };
 
   return (
     <div className="h-full flex flex-col bg-card border-r">
       <div className="p-4 border-b">
         <h2 className="text-lg font-semibold mb-4">CSS Styler</h2>
-        <Tabs value={mode} onValueChange={handleModeChange}>
+        <Tabs value={mode} onValueChange={(value) => setMode(value as 'basic' | 'advanced')}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="basic">Basic</TabsTrigger>
             <TabsTrigger value="advanced">Advanced</TabsTrigger>
           </TabsList>
         </Tabs>
-        
-        {showAlert && (
-          <Alert className="mt-3 bg-yellow-50 border-yellow-200">
-            <AlertTriangle className="h-4 w-4 text-yellow-600" />
-            <AlertDescription className="text-yellow-800">
-              Changes made in Advanced mode are not synchronized with Basic mode controls.
-            </AlertDescription>
-          </Alert>
-        )}
       </div>
       
       <div className="flex-1 overflow-hidden">
@@ -164,7 +179,7 @@ export const ControlPanel = ({ styles, setStyles }: {
           </TabsContent>
           <TabsContent value="advanced" className="h-full m-0">
             <AdvancedEditor
-              css={advancedCSS || generateCSS()}
+              css={generateCSS()}
               onChange={handleAdvancedCSSChange}
             />
           </TabsContent>
