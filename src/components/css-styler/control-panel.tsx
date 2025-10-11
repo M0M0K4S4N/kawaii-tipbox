@@ -163,7 +163,7 @@ export const ControlPanel = ({ styles, setStyles }: {
   return (
     <div className="h-full flex flex-col bg-card border-r">
       <div className="p-4 border-b">
-        <h2 className="text-lg font-semibold mb-4">TipBoxStyler</h2>
+        <h2 className="text-lg font-semibold mb-4">CSS Styler</h2>
         <Tabs value={mode} onValueChange={(value) => setMode(value as 'basic' | 'advanced')}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="basic">Basic</TabsTrigger>

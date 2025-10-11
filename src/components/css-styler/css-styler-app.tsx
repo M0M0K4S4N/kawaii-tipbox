@@ -5,7 +5,6 @@ import { ControlPanel, CSSStyles } from './control-panel';
 import { PreviewPane } from './preview-pane';
 import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from '@/components/ui/resizable';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Footer } from '@/components/footer';
 
 const defaultStyles: CSSStyles = {
   // Typography
@@ -43,37 +42,31 @@ export const CSSStylerApp = () => {
     // Mobile layout - stack panels vertically
     return (
       <div className="h-screen flex flex-col">
-        <div className="flex-1 overflow-hidden flex flex-col">
-          <div className="flex-1 overflow-hidden">
-            <ControlPanel styles={styles} setStyles={setStyles} />
-          </div>
-          <div className="h-px bg-border" />
-          <div className="flex-1 overflow-hidden">
-            <PreviewPane styles={styles} />
-          </div>
+        <div className="flex-1 overflow-hidden">
+          <ControlPanel styles={styles} setStyles={setStyles} />
         </div>
-        <Footer />
+        <div className="h-px bg-border" />
+        <div className="flex-1 overflow-hidden">
+          <PreviewPane styles={styles} />
+        </div>
       </div>
     );
   }
 
   // Desktop layout - side by side with resizable divider
   return (
-    <div className="h-screen flex flex-col">
-      <div className="flex-1">
-        <ResizablePanelGroup direction="horizontal" className="h-full">
-          <ResizablePanel defaultSize={40} minSize={25} maxSize={60}>
-            <ControlPanel styles={styles} setStyles={setStyles} />
-          </ResizablePanel>
-          
-          <ResizableHandle withHandle />
-          
-          <ResizablePanel defaultSize={60} minSize={40}>
-            <PreviewPane styles={styles} />
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      </div>
-      <Footer />
+    <div className="h-screen">
+      <ResizablePanelGroup direction="horizontal" className="h-full">
+        <ResizablePanel defaultSize={40} minSize={25} maxSize={60}>
+          <ControlPanel styles={styles} setStyles={setStyles} />
+        </ResizablePanel>
+        
+        <ResizableHandle withHandle />
+        
+        <ResizablePanel defaultSize={60} minSize={40}>
+          <PreviewPane styles={styles} />
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 };
