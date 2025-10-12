@@ -39,67 +39,62 @@ export const PreviewPane = ({ styles }: PreviewPaneProps) => {
           }
 
           .DonateGoal_progress__progress {
-            background: linear-gradient(180deg, #aaa, #888);
-            box-shadow: 0 0 10px #000;
-            height: 42px;
-            line-height: 42px;
-            position: relative;
-            width: 100%
+            background: ${styles.progressBackground};
+            box-shadow: ${styles.progressBoxShadow};
+            height: ${styles.progressHeight};
+            line-height: ${styles.progressLineHeight};
+            position: ${styles.progressPosition};
+            width: ${styles.progressWidth}
           }
 
           .DonateGoal_progress__done {
-            background: linear-gradient(180deg, #71e251, #509e39);
-            border-right: 2px solid #444;
-            height: 42px;
-            left: 0;
-            position: absolute;
-            top: 0;
-            transition: width 1s ease-out;
-            width: 30%;
+            background: ${styles.doneBackground};
+            border-right: ${styles.doneBorderRight};
+            height: ${styles.doneHeight};
+            left: ${styles.doneLeft};
+            position: ${styles.donePosition};
+            top: ${styles.doneTop};
+            transition: ${styles.doneTransition};
+            width: ${styles.doneWidth};
           }
 
           .DonateGoal_progress__text {
-            position: relative
+            position: ${styles.textPosition}
           }
 
           .DonateGoal_style__goal {
-            color: #fff;
-            font-size: 14pt;
-            text-align: center;
-            text-shadow: #000 0 0 20px
+            color: ${styles.goalColor};
+            font-size: ${styles.goalFontSize};
+            text-align: ${styles.goalTextAlign};
+            text-shadow: ${styles.goalTextShadow}
           }
 
           .DonateGoal_style__name {
-            margin-bottom: 10px
+            margin-bottom: ${styles.nameMarginBottom}
           }
 
           .DonateGoal_style__legend {
-            display: flex;
-            flex-direction: row
+            display: ${styles.legendDisplay};
+            flex-direction: ${styles.legendFlexDirection}
           }
 
           .DonateGoal_style__deadline,
           .DonateGoal_style__end,
           .DonateGoal_style__start {
-            flex: 1
+            flex: ${styles.legendItemFlex}
           }
 
           .DonateGoal_style__start {
-            text-align: left
+            text-align: ${styles.startTextAlign}
           }
 
           .DonateGoal_style__end {
-            text-align: right
+            text-align: ${styles.endTextAlign}
           }
 
           .DonateGoal_style__deadline {
-            text-align: center
+            text-align: ${styles.deadlineTextAlign}
           }
-        `}</style>
-
-        {/* Custom style */}
-        <style jsx>{`
-
         `}</style>
 
         {/* Sample HTML Elements */}

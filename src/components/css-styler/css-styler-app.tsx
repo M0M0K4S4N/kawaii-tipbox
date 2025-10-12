@@ -1,41 +1,61 @@
 "use client";
 
 import React, { useState } from 'react';
-import { ControlPanel, CSSStyles } from './control-panel';
+import { ControlPanel, DonationStyles } from './control-panel';
 import { PreviewPane } from './preview-pane';
 import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from '@/components/ui/resizable';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-const defaultStyles: CSSStyles = {
-  // Typography
-  fontSize: '16px',
-  fontFamily: 'Arial, sans-serif',
-  fontWeight: '400',
-  textAlign: 'left',
-  lineHeight: '1.5',
-  letterSpacing: '0px',
-  textColor: '#000000',
+const defaultStyles: DonationStyles = {
+  // Progress bar styles
+  progressBackground: 'linear-gradient(180deg, #aaa, #888)',
+  progressBoxShadow: '0 0 10px #000',
+  progressHeight: '42px',
+  progressLineHeight: '42px',
+  progressPosition: 'relative',
+  progressWidth: '100%',
   
-  // Layout & Spacing
-  padding: '16px',
-  margin: '0px',
-  width: 'auto',
-  height: 'auto',
-  display: 'block',
-  position: 'static',
+  // Done bar styles
+  doneBackground: 'linear-gradient(180deg, #71e251, #509e39)',
+  doneBorderRight: '2px solid #444',
+  doneHeight: '42px',
+  doneLeft: '0',
+  donePosition: 'absolute',
+  doneTop: '0',
+  doneTransition: 'width 1s ease-out',
+  doneWidth: '30%',
   
-  // Appearance
-  backgroundColor: '#ffffff',
-  borderStyle: 'solid',
-  borderWidth: '1px',
-  borderColor: '#cccccc',
-  borderRadius: '4px',
-  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-  opacity: '1',
+  // Text styles
+  textPosition: 'relative',
+  
+  // Goal container styles
+  goalColor: '#fff',
+  goalFontSize: '14pt',
+  goalTextAlign: 'center',
+  goalTextShadow: '#000 0 0 20px',
+  
+  // Name styles
+  nameMarginBottom: '10px',
+  
+  // Legend styles
+  legendDisplay: 'flex',
+  legendFlexDirection: 'row',
+  
+  // Legend item styles
+  legendItemFlex: '1',
+  
+  // Start styles
+  startTextAlign: 'left',
+  
+  // End styles
+  endTextAlign: 'right',
+  
+  // Deadline styles
+  deadlineTextAlign: 'center',
 };
 
 export const CSSStylerApp = () => {
-  const [styles, setStyles] = useState<CSSStyles>(defaultStyles);
+  const [styles, setStyles] = useState<DonationStyles>(defaultStyles);
   const isMobile = useIsMobile();
 
   if (isMobile) {

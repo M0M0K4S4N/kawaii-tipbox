@@ -4,99 +4,169 @@ import React, { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Copy } from 'lucide-react';
-import { BasicControls } from './basic-controls';
+import { DonationControls } from './donation-controls';
 import { AdvancedEditor } from './advanced-editor';
 
-export interface CSSStyles {
-  // Typography
-  fontSize: string;
-  fontFamily: string;
-  fontWeight: string;
-  textAlign: string;
-  lineHeight: string;
-  letterSpacing: string;
-  textColor: string;
+export interface DonationStyles {
+  // Progress bar styles
+  progressBackground: string;
+  progressBoxShadow: string;
+  progressHeight: string;
+  progressLineHeight: string;
+  progressPosition: string;
+  progressWidth: string;
   
-  // Layout & Spacing
-  padding: string;
-  margin: string;
-  width: string;
-  height: string;
-  display: string;
-  position: string;
+  // Done bar styles
+  doneBackground: string;
+  doneBorderRight: string;
+  doneHeight: string;
+  doneLeft: string;
+  donePosition: string;
+  doneTop: string;
+  doneTransition: string;
+  doneWidth: string;
   
-  // Appearance
-  backgroundColor: string;
-  borderStyle: string;
-  borderWidth: string;
-  borderColor: string;
-  borderRadius: string;
-  boxShadow: string;
-  opacity: string;
+  // Text styles
+  textPosition: string;
+  
+  // Goal container styles
+  goalColor: string;
+  goalFontSize: string;
+  goalTextAlign: string;
+  goalTextShadow: string;
+  
+  // Name styles
+  nameMarginBottom: string;
+  
+  // Legend styles
+  legendDisplay: string;
+  legendFlexDirection: string;
+  
+  // Legend item styles
+  legendItemFlex: string;
+  
+  // Start styles
+  startTextAlign: string;
+  
+  // End styles
+  endTextAlign: string;
+  
+  // Deadline styles
+  deadlineTextAlign: string;
 }
 
-const defaultStyles: CSSStyles = {
-  // Typography
-  fontSize: '16px',
-  fontFamily: 'Arial, sans-serif',
-  fontWeight: '400',
-  textAlign: 'left',
-  lineHeight: '1.5',
-  letterSpacing: '0px',
-  textColor: '#000000',
+const defaultStyles: DonationStyles = {
+  // Progress bar styles
+  progressBackground: 'linear-gradient(180deg, #aaa, #888)',
+  progressBoxShadow: '0 0 10px #000',
+  progressHeight: '42px',
+  progressLineHeight: '42px',
+  progressPosition: 'relative',
+  progressWidth: '100%',
   
-  // Layout & Spacing
-  padding: '16px',
-  margin: '0px',
-  width: 'auto',
-  height: 'auto',
-  display: 'block',
-  position: 'static',
+  // Done bar styles
+  doneBackground: 'linear-gradient(180deg, #71e251, #509e39)',
+  doneBorderRight: '2px solid #444',
+  doneHeight: '42px',
+  doneLeft: '0',
+  donePosition: 'absolute',
+  doneTop: '0',
+  doneTransition: 'width 1s ease-out',
+  doneWidth: '30%',
   
-  // Appearance
-  backgroundColor: '#ffffff',
-  borderStyle: 'solid',
-  borderWidth: '1px',
-  borderColor: '#cccccc',
-  borderRadius: '4px',
-  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-  opacity: '1',
+  // Text styles
+  textPosition: 'relative',
+  
+  // Goal container styles
+  goalColor: '#fff',
+  goalFontSize: '14pt',
+  goalTextAlign: 'center',
+  goalTextShadow: '#000 0 0 20px',
+  
+  // Name styles
+  nameMarginBottom: '10px',
+  
+  // Legend styles
+  legendDisplay: 'flex',
+  legendFlexDirection: 'row',
+  
+  // Legend item styles
+  legendItemFlex: '1',
+  
+  // Start styles
+  startTextAlign: 'left',
+  
+  // End styles
+  endTextAlign: 'right',
+  
+  // Deadline styles
+  deadlineTextAlign: 'center',
 };
 
 export const ControlPanel = ({ styles, setStyles }: {
-  styles: CSSStyles;
-  setStyles: (styles: CSSStyles) => void;
+  styles: DonationStyles;
+  setStyles: (styles: DonationStyles) => void;
 }) => {
   const [mode, setMode] = useState<'basic' | 'advanced'>('basic');
   const [copied, setCopied] = useState(false);
 
   const generateCSS = useCallback(() => {
-    return `.styled-element {
-  /* Typography */
-  font-size: ${styles.fontSize};
-  font-family: ${styles.fontFamily};
-  font-weight: ${styles.fontWeight};
-  text-align: ${styles.textAlign};
-  line-height: ${styles.lineHeight};
-  letter-spacing: ${styles.letterSpacing};
-  color: ${styles.textColor};
+    return `.DonateGoal_progress__progress {
+  background: ${styles.progressBackground};
+  box-shadow: ${styles.progressBoxShadow};
+  height: ${styles.progressHeight};
+  line-height: ${styles.progressLineHeight};
+  position: ${styles.progressPosition};
+  width: ${styles.progressWidth}
+}
 
-  /* Layout & Spacing */
-  padding: ${styles.padding};
-  margin: ${styles.margin};
-  width: ${styles.width};
-  height: ${styles.height};
-  display: ${styles.display};
-  position: ${styles.position};
+.DonateGoal_progress__done {
+  background: ${styles.doneBackground};
+  border-right: ${styles.doneBorderRight};
+  height: ${styles.doneHeight};
+  left: ${styles.doneLeft};
+  position: ${styles.donePosition};
+  top: ${styles.doneTop};
+  transition: ${styles.doneTransition};
+  width: ${styles.doneWidth};
+}
 
-  /* Appearance */
-  background-color: ${styles.backgroundColor};
-  border-style: ${styles.borderStyle};
-  border-width: ${styles.borderWidth};
-  border-color: ${styles.borderColor};
-  border-radius: ${styles.borderRadius};
-  box-shadow: ${styles.boxShadow};
-  opacity: ${styles.opacity};
+.DonateGoal_progress__text {
+  position: ${styles.textPosition}
+}
+
+.DonateGoal_style__goal {
+  color: ${styles.goalColor};
+  font-size: ${styles.goalFontSize};
+  text-align: ${styles.goalTextAlign};
+  text-shadow: ${styles.goalTextShadow}
+}
+
+.DonateGoal_style__name {
+  margin-bottom: ${styles.nameMarginBottom}
+}
+
+.DonateGoal_style__legend {
+  display: ${styles.legendDisplay};
+  flex-direction: ${styles.legendFlexDirection}
+}
+
+.DonateGoal_style__deadline,
+.DonateGoal_style__end,
+.DonateGoal_style__start {
+  flex: ${styles.legendItemFlex}
+}
+
+.DonateGoal_style__start {
+  text-align: ${styles.startTextAlign}
+}
+
+.DonateGoal_style__end {
+  text-align: ${styles.endTextAlign}
+}
+
+.DonateGoal_style__deadline {
+  text-align: ${styles.deadlineTextAlign}
 }`;
   }, [styles]);
 
@@ -134,28 +204,26 @@ export const ControlPanel = ({ styles, setStyles }: {
     }
   };
 
-  const mapCSSProperty = (cssProperty: string): keyof CSSStyles | null => {
-    const mapping: Record<string, keyof CSSStyles> = {
-      'font-size': 'fontSize',
-      'font-family': 'fontFamily',
-      'font-weight': 'fontWeight',
-      'text-align': 'textAlign',
-      'line-height': 'lineHeight',
-      'letter-spacing': 'letterSpacing',
-      'color': 'textColor',
-      'padding': 'padding',
-      'margin': 'margin',
-      'width': 'width',
-      'height': 'height',
-      'display': 'display',
-      'position': 'position',
-      'background-color': 'backgroundColor',
-      'border-style': 'borderStyle',
-      'border-width': 'borderWidth',
-      'border-color': 'borderColor',
-      'border-radius': 'borderRadius',
-      'box-shadow': 'boxShadow',
-      'opacity': 'opacity',
+  const mapCSSProperty = (cssProperty: string): keyof DonationStyles | null => {
+    const mapping: Record<string, keyof DonationStyles> = {
+      'background': 'progressBackground',
+      'box-shadow': 'progressBoxShadow',
+      'height': 'progressHeight',
+      'line-height': 'progressLineHeight',
+      'position': 'progressPosition',
+      'width': 'progressWidth',
+      'border-right': 'doneBorderRight',
+      'left': 'doneLeft',
+      'top': 'doneTop',
+      'transition': 'doneTransition',
+      'color': 'goalColor',
+      'font-size': 'goalFontSize',
+      'text-align': 'goalTextAlign',
+      'text-shadow': 'goalTextShadow',
+      'margin-bottom': 'nameMarginBottom',
+      'display': 'legendDisplay',
+      'flex-direction': 'legendFlexDirection',
+      'flex': 'legendItemFlex',
     };
     return mapping[cssProperty] || null;
   };
@@ -163,7 +231,7 @@ export const ControlPanel = ({ styles, setStyles }: {
   return (
     <div className="h-full flex flex-col bg-card border-r">
       <div className="p-4 border-b">
-        <h2 className="text-lg font-semibold mb-4">CSS Styler</h2>
+        <h2 className="text-lg font-semibold mb-4">Donation Goal Styler</h2>
         <Tabs value={mode} onValueChange={(value) => setMode(value as 'basic' | 'advanced')}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="basic">Basic</TabsTrigger>
@@ -175,7 +243,7 @@ export const ControlPanel = ({ styles, setStyles }: {
       <div className="flex-1 overflow-hidden">
         <Tabs value={mode} className="h-full">
           <TabsContent value="basic" className="h-full m-0">
-            <BasicControls styles={styles} setStyles={setStyles} />
+            <DonationControls styles={styles} setStyles={setStyles} />
           </TabsContent>
           <TabsContent value="advanced" className="h-full m-0">
             <AdvancedEditor
