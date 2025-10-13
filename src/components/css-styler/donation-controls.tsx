@@ -8,6 +8,8 @@ import { Slider } from '@/components/ui/slider';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { DonationStyles } from './control-panel';
+import { EmojiPicker } from '@ferrucc-io/emoji-picker';
+import { Delete } from 'lucide-react';
 
 interface DonationControlsProps {
   styles: DonationStyles;
@@ -220,6 +222,76 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
                   onChange={(e) => updateStyle('progressRightBorderColor', e.target.value)}
                   className="flex-1"
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Emoji */}
+        <div>
+          <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Emoji</h3>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="emojiPosition">Emoji Position (related to progress bar)</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Slider
+                  value={[parseInt(styles.emojiPosition)]}
+                  onValueChange={([value]) => updateStyle('emojiPosition', `${value}px`)}
+                  max={100}
+                  min={-100}
+                  step={1}
+                  className="flex-1"
+                />
+                <Input
+                  value={styles.emojiPosition}
+                  onChange={(e) => updateStyle('emojiPosition', e.target.value)}
+                  className="w-20 text-xs"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="emojiSize">Emoji Size</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Slider
+                  value={[parseInt(styles.emojiSize)]}
+                  onValueChange={([value]) => updateStyle('emojiSize', `${value}pt`)}
+                  max={70}
+                  min={1}
+                  step={1}
+                  className="flex-1"
+                />
+                <Input
+                  value={styles.emojiSize}
+                  onChange={(e) => updateStyle('emojiSize', e.target.value)}
+                  className="w-20 text-xs"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="emoji">
+                Emoji
+              </Label>
+              <div className='flex space-x-2 mt-1 mb-4 items-center justify-center'>
+                {/* Box to show emoji */}
+                <div className='w-16 h-16 flex items-center justify-center rounded-full bg-gray-200 text-5xl'>
+                  {styles.emoji}
+                </div>
+                <div className='w-16 h-16 flex items-center'>
+                  <Delete className='cursor-pointer'
+                    onClick={() => updateStyle('emoji', '')} />
+                </div>
+              </div>
+              <div className="flex items-center space-x-2 mt-1">
+                <EmojiPicker className='flex-1' onEmojiSelect={(emoji) => {
+                  updateStyle('emoji', emoji);
+                }}>
+                  <EmojiPicker.Header>
+                    <EmojiPicker.Input placeholder="Search emoji" />
+                  </EmojiPicker.Header>
+                  <EmojiPicker.Group>
+                    <EmojiPicker.List />
+                  </EmojiPicker.Group>
+                </EmojiPicker>
               </div>
             </div>
           </div>

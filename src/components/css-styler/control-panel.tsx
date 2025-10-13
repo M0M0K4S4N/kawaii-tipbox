@@ -22,6 +22,10 @@ export interface DonationStyles {
 
   progressRightBorder: string;
   progressRightBorderColor: string;
+
+  emoji: string;
+  emojiPosition: string;
+  emojiSize: string;
 }
 
 export const defaultStyles: DonationStyles = {
@@ -38,6 +42,10 @@ export const defaultStyles: DonationStyles = {
 
   progressRightBorder: '2px',
   progressRightBorderColor: '#444444',
+
+  emoji: '',
+  emojiPosition: '0px',
+  emojiSize: '24pt',
 };
 
 export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMode }: {
@@ -60,10 +68,10 @@ export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMo
 }
 
 .DonateGoal_progress__done::after {
-  content: "";
+  content: "${styles.emoji}";
   float: right;
-  margin-right: -16px;
-  font-size: 24pt;
+  margin-right: ${styles.emojiPosition};
+  font-size: ${styles.emojiSize};
 }
 
 .DonateGoal_progress__progress {
