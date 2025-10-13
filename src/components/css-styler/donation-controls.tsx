@@ -7,15 +7,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ControlPanel } from './control-panel';
+import { DonationStyles } from './control-panel';
 
 interface DonationControlsProps {
-  styles: ControlPanel['styles'];
-  setStyles: (styles: ControlPanel['styles']) => void;
+  styles: DonationStyles;
+  setStyles: (styles: DonationStyles) => void;
 }
 
 export const DonationControls = ({ styles, setStyles }: DonationControlsProps) => {
-  const updateStyle = (property: keyof ControlPanel['styles'], value: string) => {
+  const updateStyle = (property: keyof DonationStyles, value: string) => {
     setStyles({ ...styles, [property]: value });
   };
 
@@ -27,379 +27,200 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
   return (
     <ScrollArea className="h-full p-4">
       <div className="space-y-6">
-        {/* Progress Bar Styles */}
+        {/* Background */}
+        <div>
+          <h2 className="text-sm font-semibold mb-3 text-muted-foreground">Background</h2>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="barBackground">Background Color</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Input
+                  type="color"
+                  value={styles.barBackground}
+                  onChange={(e) => updateStyle('barBackground', e.target.value)}
+                  className="w-12 h-8 p-0 border-0"
+                />
+                <Input
+                  value={styles.barBackground}
+                  onChange={(e) => updateStyle('barBackground', e.target.value)}
+                  className="flex-1"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="barBackground2">Background Color 2</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Input
+                  type="color"
+                  value={styles.barBackground2}
+                  onChange={(e) => updateStyle('barBackground2', e.target.value)}
+                  className="w-12 h-8 p-0 border-0"
+                />
+                <Input
+                  value={styles.barBackground2}
+                  onChange={(e) => updateStyle('barBackground2', e.target.value)}
+                  className="flex-1"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="barRoundness">Roundness</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Slider
+                  value={[parseInt(styles.barRoundness)]}
+                  onValueChange={([value]) => updateStyle('barRoundness', `${value}px`)}
+                  max={25}
+                  min={0}
+                  step={1}
+                  className="flex-1"
+                />
+                <Input
+                  value={styles.barRoundness}
+                  onChange={(e) => updateStyle('barRoundness', e.target.value)}
+                  className="w-20 text-xs"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="barBorder">Border</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Slider
+                  value={[parseInt(styles.barBorder)]}
+                  onValueChange={([value]) => updateStyle('barBorder', `${value}px`)}
+                  max={3}
+                  min={0}
+                  step={1}
+                  className="flex-1"
+                />
+                <Input
+                  value={styles.barBorder}
+                  onChange={(e) => updateStyle('barBorder', e.target.value)}
+                  className="w-20 text-xs"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="barBorderColor">Border Color</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Input
+                  type="color"
+                  value={styles.barBorderColor}
+                  onChange={(e) => updateStyle('barBorderColor', e.target.value)}
+                  className="w-12 h-8 p-0 border-0"
+                />
+                <Input
+                  value={styles.barBorderColor}
+                  onChange={(e) => updateStyle('barBorderColor', e.target.value)}
+                  className="flex-1"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Progress Bar */}
         <div>
           <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Progress Bar</h3>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="progressBackground">Background</Label>
-              <Input
-                value={styles.progressBackground}
-                onChange={(e) => updateStyle('progressBackground', e.target.value)}
-                placeholder="e.g., linear-gradient(180deg, #aaa, #888)"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="progressBoxShadow">Box Shadow</Label>
-              <Input
-                value={styles.progressBoxShadow}
-                onChange={(e) => updateStyle('progressBoxShadow', e.target.value)}
-                placeholder="e.g., 0 0 10px #000"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="progressHeight">Height</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Slider
-                  value={[parseInt(styles.progressHeight)]}
-                  onValueChange={([value]) => updateStyle('progressHeight', `${value}px`)}
-                  max={100}
-                  min={10}
-                  step={1}
-                  className="flex-1"
-                />
-                <Input
-                  value={styles.progressHeight}
-                  onChange={(e) => updateStyle('progressHeight', e.target.value)}
-                  className="w-20 text-xs"
-                />
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="progressLineHeight">Line Height</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Slider
-                  value={[parseInt(styles.progressLineHeight)]}
-                  onValueChange={([value]) => updateStyle('progressLineHeight', `${value}px`)}
-                  max={100}
-                  min={10}
-                  step={1}
-                  className="flex-1"
-                />
-                <Input
-                  value={styles.progressLineHeight}
-                  onChange={(e) => updateStyle('progressLineHeight', e.target.value)}
-                  className="w-20 text-xs"
-                />
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="progressPosition">Position</Label>
-              <Select value={styles.progressPosition} onValueChange={(value) => updateStyle('progressPosition', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {positions.map((position) => (
-                    <SelectItem key={position} value={position}>{position}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label htmlFor="progressWidth">Width</Label>
-              <Input
-                value={styles.progressWidth}
-                onChange={(e) => updateStyle('progressWidth', e.target.value)}
-                placeholder="e.g., 100% or 300px"
-              />
-            </div>
-          </div>
-        </div>
-
-        <Separator />
-
-        {/* Done Bar Styles */}
-        <div>
-          <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Progress Done Bar</h3>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="doneBackground">Background</Label>
-              <Input
-                value={styles.doneBackground}
-                onChange={(e) => updateStyle('doneBackground', e.target.value)}
-                placeholder="e.g., linear-gradient(180deg, #71e251, #509e39)"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="doneBorderRight">Border Right</Label>
-              <Input
-                value={styles.doneBorderRight}
-                onChange={(e) => updateStyle('doneBorderRight', e.target.value)}
-                placeholder="e.g., 2px solid #444"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="doneHeight">Height</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Slider
-                  value={[parseInt(styles.doneHeight)]}
-                  onValueChange={([value]) => updateStyle('doneHeight', `${value}px`)}
-                  max={100}
-                  min={10}
-                  step={1}
-                  className="flex-1"
-                />
-                <Input
-                  value={styles.doneHeight}
-                  onChange={(e) => updateStyle('doneHeight', e.target.value)}
-                  className="w-20 text-xs"
-                />
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="doneLeft">Left</Label>
-              <Input
-                value={styles.doneLeft}
-                onChange={(e) => updateStyle('doneLeft', e.target.value)}
-                placeholder="e.g., 0 or 10px"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="donePosition">Position</Label>
-              <Select value={styles.donePosition} onValueChange={(value) => updateStyle('donePosition', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {positions.map((position) => (
-                    <SelectItem key={position} value={position}>{position}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label htmlFor="doneTop">Top</Label>
-              <Input
-                value={styles.doneTop}
-                onChange={(e) => updateStyle('doneTop', e.target.value)}
-                placeholder="e.g., 0 or 10px"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="doneTransition">Transition</Label>
-              <Input
-                value={styles.doneTransition}
-                onChange={(e) => updateStyle('doneTransition', e.target.value)}
-                placeholder="e.g., width 1s ease-out"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="doneWidth">Width</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Slider
-                  value={[parseInt(styles.doneWidth)]}
-                  onValueChange={([value]) => updateStyle('doneWidth', `${value}%`)}
-                  max={100}
-                  min={0}
-                  step={1}
-                  className="flex-1"
-                />
-                <Input
-                  value={styles.doneWidth}
-                  onChange={(e) => updateStyle('doneWidth', e.target.value)}
-                  className="w-20 text-xs"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <Separator />
-
-        {/* Text Styles */}
-        <div>
-          <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Text Styles</h3>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="textPosition">Text Position</Label>
-              <Select value={styles.textPosition} onValueChange={(value) => updateStyle('textPosition', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {positions.map((position) => (
-                    <SelectItem key={position} value={position}>{position}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label htmlFor="goalColor">Goal Color</Label>
+              <Label htmlFor="progressBackground">Background Color</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Input
                   type="color"
-                  value={styles.goalColor}
-                  onChange={(e) => updateStyle('goalColor', e.target.value)}
+                  value={styles.progressBackground}
+                  onChange={(e) => updateStyle('progressBackground', e.target.value)}
                   className="w-12 h-8 p-0 border-0"
                 />
                 <Input
-                  value={styles.goalColor}
-                  onChange={(e) => updateStyle('goalColor', e.target.value)}
+                  value={styles.progressBackground}
+                  onChange={(e) => updateStyle('progressBackground', e.target.value)}
                   className="flex-1"
                 />
               </div>
             </div>
-
             <div>
-              <Label htmlFor="goalFontSize">Goal Font Size</Label>
+              <Label htmlFor="progressBackground2">Background Color 2</Label>
               <div className="flex items-center space-x-2 mt-1">
-                <Slider
-                  value={[parseInt(styles.goalFontSize)]}
-                  onValueChange={([value]) => updateStyle('goalFontSize', `${value}pt`)}
-                  max={24}
-                  min={8}
-                  step={1}
-                  className="flex-1"
+                <Input
+                  type="color"
+                  value={styles.progressBackground2}
+                  onChange={(e) => updateStyle('progressBackground2', e.target.value)}
+                  className="w-12 h-8 p-0 border-0"
                 />
                 <Input
-                  value={styles.goalFontSize}
-                  onChange={(e) => updateStyle('goalFontSize', e.target.value)}
-                  className="w-20 text-xs"
+                  value={styles.progressBackground2}
+                  onChange={(e) => updateStyle('progressBackground2', e.target.value)}
+                  className="flex-1"
                 />
               </div>
             </div>
-
             <div>
-              <Label htmlFor="goalTextAlign">Goal Text Align</Label>
-              <Select value={styles.goalTextAlign} onValueChange={(value) => updateStyle('goalTextAlign', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {textAligns.map((align) => (
-                    <SelectItem key={align} value={align}>{align}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label htmlFor="goalTextShadow">Goal Text Shadow</Label>
-              <Input
-                value={styles.goalTextShadow}
-                onChange={(e) => updateStyle('goalTextShadow', e.target.value)}
-                placeholder="e.g., #000 0 0 20px"
-              />
-            </div>
-          </div>
-        </div>
-
-        <Separator />
-
-        {/* Layout Styles */}
-        <div>
-          <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Layout</h3>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="nameMarginBottom">Name Margin Bottom</Label>
+              <Label htmlFor="progressRoundness">Roundness</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Slider
-                  value={[parseInt(styles.nameMarginBottom)]}
-                  onValueChange={([value]) => updateStyle('nameMarginBottom', `${value}px`)}
-                  max={50}
+                  value={[parseInt(styles.progressRoundness)]}
+                  onValueChange={([value]) => updateStyle('progressRoundness', `${value}px`)}
+                  max={25}
                   min={0}
                   step={1}
                   className="flex-1"
                 />
                 <Input
-                  value={styles.nameMarginBottom}
-                  onChange={(e) => updateStyle('nameMarginBottom', e.target.value)}
+                  value={styles.progressRoundness}
+                  onChange={(e) => updateStyle('progressRoundness', e.target.value)}
                   className="w-20 text-xs"
                 />
               </div>
             </div>
-
             <div>
-              <Label htmlFor="legendDisplay">Legend Display</Label>
-              <Select value={styles.legendDisplay} onValueChange={(value) => updateStyle('legendDisplay', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {displays.map((display) => (
-                    <SelectItem key={display} value={display}>{display}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Label htmlFor="progressTextColor">Text Color</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Input
+                  type="color"
+                  value={styles.progressTextColor}
+                  onChange={(e) => updateStyle('progressTextColor', e.target.value)}
+                  className="w-12 h-8 p-0 border-0"
+                />
+                <Input
+                  value={styles.progressTextColor}
+                  onChange={(e) => updateStyle('progressTextColor', e.target.value)}
+                  className="flex-1"
+                />
+              </div>
             </div>
-
             <div>
-              <Label htmlFor="legendFlexDirection">Legend Flex Direction</Label>
-              <Select value={styles.legendFlexDirection} onValueChange={(value) => updateStyle('legendFlexDirection', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {flexDirections.map((direction) => (
-                    <SelectItem key={direction} value={direction}>{direction}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Label htmlFor="progressRightBorder">Right Border</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Slider
+                  value={[parseInt(styles.progressRightBorder)]}
+                  onValueChange={([value]) => updateStyle('progressRightBorder', `${value}px`)}
+                  max={5}
+                  min={0}
+                  step={1}
+                  className="flex-1"
+                />
+                <Input
+                  value={styles.progressRightBorder}
+                  onChange={(e) => updateStyle('progressRightBorder', e.target.value)}
+                  className="w-20 text-xs"
+                />
+              </div>
             </div>
-
             <div>
-              <Label htmlFor="legendItemFlex">Legend Item Flex</Label>
-              <Input
-                value={styles.legendItemFlex}
-                onChange={(e) => updateStyle('legendItemFlex', e.target.value)}
-                placeholder="e.g., 1 or auto"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="startTextAlign">Start Text Align</Label>
-              <Select value={styles.startTextAlign} onValueChange={(value) => updateStyle('startTextAlign', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {textAligns.map((align) => (
-                    <SelectItem key={align} value={align}>{align}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label htmlFor="endTextAlign">End Text Align</Label>
-              <Select value={styles.endTextAlign} onValueChange={(value) => updateStyle('endTextAlign', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {textAligns.map((align) => (
-                    <SelectItem key={align} value={align}>{align}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label htmlFor="deadlineTextAlign">Deadline Text Align</Label>
-              <Select value={styles.deadlineTextAlign} onValueChange={(value) => updateStyle('deadlineTextAlign', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {textAligns.map((align) => (
-                    <SelectItem key={align} value={align}>{align}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Label htmlFor="progressRightBorderColor">Right Border Color</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Input
+                  type="color"
+                  value={styles.progressRightBorderColor}
+                  onChange={(e) => updateStyle('progressRightBorderColor', e.target.value)}
+                  className="w-12 h-8 p-0 border-0"
+                />
+                <Input
+                  value={styles.progressRightBorderColor}
+                  onChange={(e) => updateStyle('progressRightBorderColor', e.target.value)}
+                  className="flex-1"
+                />
+              </div>
             </div>
           </div>
         </div>

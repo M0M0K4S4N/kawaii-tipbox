@@ -3,15 +3,14 @@
 import React from 'react';
 import { ControlPanel } from './control-panel';
 
-interface PreviewPaneProps {
-  styles: ControlPanel['styles'];
-}
 
-export const PreviewPane = ({ styles }: PreviewPaneProps) => {
+export const PreviewPane = ({ cssText }: {
+  cssText: string
+}) => {
   return (
     <div className="h-full overflow-auto bg-muted/30 p-8">
       <div className="max-w-4xl mx-auto space-y-6">
-        <style jsx>{`
+        <style>{`
           .manager_style__error {
             background-color: #a8262699;
             color: #fff;
@@ -39,72 +38,114 @@ export const PreviewPane = ({ styles }: PreviewPaneProps) => {
           }
 
           .DonateGoal_progress__progress {
-            background: ${styles.progressBackground};
-            box-shadow: ${styles.progressBoxShadow};
-            height: ${styles.progressHeight};
-            line-height: ${styles.progressLineHeight};
-            position: ${styles.progressPosition};
-            width: ${styles.progressWidth}
+            background: linear-gradient(180deg, #aaa, #888);
+            box-shadow: 0 0 10px #000;
+            height: 42px;
+            line-height: 42px;
+            position: relative;
+            width: 100%
           }
 
           .DonateGoal_progress__done {
-            background: ${styles.doneBackground};
-            border-right: ${styles.doneBorderRight};
-            height: ${styles.doneHeight};
-            left: ${styles.doneLeft};
-            position: ${styles.donePosition};
-            top: ${styles.doneTop};
-            transition: ${styles.doneTransition};
-            width: ${styles.doneWidth};
+            background: linear-gradient(180deg, #71e251, #509e39);
+            border-right: 2px solid #444;
+            height: 42px;
+            left: 0;
+            position: absolute;
+            top: 0;
+            transition: width 1s ease-out;
+            width: 30%;
           }
 
           .DonateGoal_progress__text {
-            position: ${styles.textPosition}
+            position: relative
           }
 
           .DonateGoal_style__goal {
-            color: ${styles.goalColor};
-            font-size: ${styles.goalFontSize};
-            text-align: ${styles.goalTextAlign};
-            text-shadow: ${styles.goalTextShadow}
+            color: #fff;
+            font-size: 14pt;
+            text-align: center;
+            text-shadow: #000 0 0 20px
           }
 
           .DonateGoal_style__name {
-            margin-bottom: ${styles.nameMarginBottom}
+            margin-bottom: 10px
           }
 
           .DonateGoal_style__legend {
-            display: ${styles.legendDisplay};
-            flex-direction: ${styles.legendFlexDirection}
+            display: flex;
+            flex-direction: row
           }
 
           .DonateGoal_style__deadline,
           .DonateGoal_style__end,
           .DonateGoal_style__start {
-            flex: ${styles.legendItemFlex}
+            flex: 1
           }
 
           .DonateGoal_style__start {
-            text-align: ${styles.startTextAlign}
+            text-align: left
           }
 
           .DonateGoal_style__end {
-            text-align: ${styles.endTextAlign}
+            text-align: right
           }
 
           .DonateGoal_style__deadline {
-            text-align: ${styles.deadlineTextAlign}
+            text-align: center
           }
+
+          /* For preview */
+          .DonateGoal_progress__done {
+            width: 30%;
+          }
+        `}</style>
+
+        {/* Custom style */}
+        {/* <style jsx>{`
+          .DonateGoal_progress__progress {
+            background: linear-gradient(180deg, #aaaaaa, #888888);
+            border-radius: 25px;
+            border: 1px solid rgb(252, 140, 140);
+          }
+
+          .DonateGoal_progress__done {
+            background: linear-gradient(180deg, #71e251, #509e39);
+            border-right: 2px solid #444444;
+            border-radius: 25px;
+            height: 100%;
+          }
+
+          .DonateGoal_progress__text {
+            color: #ffffff;
+          }
+
+          .DonateGoal_style__goal {
+            color: #ffffff;
+          }
+
+          .DonateGoal_progress__done::after {
+            content: "";
+            float: right;
+            margin-right: -16px;
+            font-size: 24pt;
+          }
+        `}</style> */}
+
+        <style>{`
+          ${cssText}
         `}</style>
 
         {/* Sample HTML Elements */}
         <div className="DonateGoal_style__goal">
+          <div className="DonateGoal_style__name">Tip box</div>
           <div className="DonateGoal_progress__progress">
             <div className="DonateGoal_progress__done"></div>
             <div className="DonateGoal_progress__text">฿30 (30%)</div>
           </div>
           <div className="DonateGoal_style__legend">
             <div className="DonateGoal_style__start">฿0</div>
+            <div className="DonateGoal_style__deadline"><time>4 สัปดาห์</time></div>
             <div className="DonateGoal_style__end">฿100</div>
           </div>
         </div>
