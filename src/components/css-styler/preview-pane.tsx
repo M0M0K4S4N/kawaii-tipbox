@@ -8,7 +8,7 @@ export const PreviewPane = ({ cssText }: {
   cssText: string
 }) => {
   return (
-    <div className="h-full overflow-auto bg-muted/30 p-8">
+    <div className="h-full overflow-auto bg-muted p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <style>{`
           .manager_style__error {
