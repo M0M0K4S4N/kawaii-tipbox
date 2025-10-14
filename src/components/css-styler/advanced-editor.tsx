@@ -83,36 +83,9 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
           onMount={handleEditorDidMount}
           options={{
             minimap,
-            scrollbar,
             fontSize: 14,
             fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
             lineNumbers: 'on',
-            roundedSelection: false,
-            scrollBeyondLastLine: false,
-            automaticLayout: true,
-            bracketPairColorization: { enabled: true },
-            suggestOnTriggerCharacters: true,
-            quickSuggestions: true,
-            wordBasedSuggestions: true,
-            parameterHints: { enabled: true },
-            folding: true,
-            foldingStrategy: 'indentation',
-            showFoldingControls: 'always',
-            contextmenu: true,
-            mouseWheelZoom: true,
-            cursorBlinking: 'blink',
-            cursorSmoothCaretAnimation: 'on',
-            smoothScrolling: true,
-            bracketMatching: 'always',
-            guides: {
-              indentation: true,
-              bracketPairs: true,
-            },
-            lightbulb: { enabled: true },
-            codeActionsOnSave: {
-              'source.fixAll': true,
-              'source.organizeImports': true,
-            },
           }}
         />
       </div>

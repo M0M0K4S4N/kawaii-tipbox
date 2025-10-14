@@ -17,7 +17,7 @@ interface DonationControlsProps {
 }
 
 export const DonationControls = ({ styles, setStyles }: DonationControlsProps) => {
-  const updateStyle = (property: keyof DonationStyles, value: string) => {
+  const updateStyle = (property: keyof DonationStyles, value: string|boolean) => {
     setStyles({ ...styles, [property]: value });
   };
 
