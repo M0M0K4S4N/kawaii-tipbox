@@ -29,6 +29,23 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
   return (
     <ScrollArea className="h-full p-4">
       <div className="space-y-6">
+        <div>
+          <h2 className="text-sm font-semibold mb-3 text-muted-foreground">Misc</h2>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="fixOverflow">Fix overflow</Label>
+              <Select value={styles.fixOverflow ? 'yes' : 'no'} onValueChange={(value) => updateStyle('fixOverflow', value === 'yes')}>
+                <SelectTrigger className="flex-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="yes">Yes</SelectItem>
+                  <SelectItem value="no">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
         {/* Background */}
         <div>
           <h2 className="text-sm font-semibold mb-3 text-muted-foreground">Background</h2>

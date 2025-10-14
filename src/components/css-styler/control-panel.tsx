@@ -26,6 +26,8 @@ export interface DonationStyles {
   emoji: string;
   emojiPosition: string;
   emojiSize: string;
+
+  fixOverflow: boolean;
 }
 
 export const defaultStyles: DonationStyles = {
@@ -46,6 +48,8 @@ export const defaultStyles: DonationStyles = {
   emoji: '',
   emojiPosition: '0px',
   emojiSize: '24pt',
+
+  fixOverflow: true,
 };
 
 export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMode }: {
@@ -59,7 +63,7 @@ export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMo
   const [copied, setCopied] = useState(false);
 
   const generateCSS = useCallback(() => {
-    const cssText: string = `.DonateGoal_progress__text {
+    let cssText: string = `.DonateGoal_progress__text {
   color: ${styles.progressTextColor};
 }
 
@@ -87,6 +91,16 @@ export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMo
   height: 100% !important;
 }
 `;
+
+if (styles.fixOverflow) {
+  cssText += `
+/* Fix overflow */
+.DonateGoal_style__goal {
+  width: 98%;
+  margin: auto;
+}
+`;
+}
 
     return cssText;
   }, [styles]);
