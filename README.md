@@ -55,10 +55,7 @@ pnpm dev
 We welcome contributions! Please feel free to submit issues and pull requests.
 
 ## Roadmap
-[ ] **Integration Guide**
-
-[ ] **More basic options**
-
-[ ] **Animation Support**
-
-[ ] **Template Gallery ?**
+- [ ] **Integration Guide**
+- [ ] **More basic options**
+- [ ] **Animation Support**
+- [ ] **Template Gallery ?**
