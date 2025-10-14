@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CSS Styler - Advanced CSS Editor",
-  description: "Professional CSS styling tool with Monaco Editor and real-time preview",
+  title: "Tipbox Style | Donation box CSS editor",
+  description: "Design your TipMe donation box in the easy way :D",
 };
 
 export default function RootLayout({
