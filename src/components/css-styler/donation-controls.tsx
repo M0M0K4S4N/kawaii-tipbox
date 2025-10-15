@@ -3,6 +3,7 @@
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { ColorPicker } from '@/components/ui/color-picker';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Separator } from '@/components/ui/separator';
@@ -52,33 +53,19 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
           <div className="space-y-4">
             <div>
               <Label htmlFor="barBackground">Background Color</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Input
-                  type="color"
+              <div className="mt-1">
+                <ColorPicker
                   value={styles.barBackground}
-                  onChange={(e) => updateStyle('barBackground', e.target.value)}
-                  className="w-12 h-8 p-0 border-0"
-                />
-                <Input
-                  value={styles.barBackground}
-                  onChange={(e) => updateStyle('barBackground', e.target.value)}
-                  className="flex-1"
+                  onChange={(value) => updateStyle('barBackground', value)}
                 />
               </div>
             </div>
             <div>
               <Label htmlFor="barBackground2">Background Color 2</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Input
-                  type="color"
+              <div className="mt-1">
+                <ColorPicker
                   value={styles.barBackground2}
-                  onChange={(e) => updateStyle('barBackground2', e.target.value)}
-                  className="w-12 h-8 p-0 border-0"
-                />
-                <Input
-                  value={styles.barBackground2}
-                  onChange={(e) => updateStyle('barBackground2', e.target.value)}
-                  className="flex-1"
+                  onChange={(value) => updateStyle('barBackground2', value)}
                 />
               </div>
             </div>
@@ -120,17 +107,10 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
             </div>
             <div>
               <Label htmlFor="barBorderColor">Border Color</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Input
-                  type="color"
+              <div className="mt-1">
+                <ColorPicker
                   value={styles.barBorderColor}
-                  onChange={(e) => updateStyle('barBorderColor', e.target.value)}
-                  className="w-12 h-8 p-0 border-0"
-                />
-                <Input
-                  value={styles.barBorderColor}
-                  onChange={(e) => updateStyle('barBorderColor', e.target.value)}
-                  className="flex-1"
+                  onChange={(value) => updateStyle('barBorderColor', value)}
                 />
               </div>
             </div>
@@ -143,33 +123,19 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
           <div className="space-y-4">
             <div>
               <Label htmlFor="progressBackground">Background Color</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Input
-                  type="color"
+              <div className="mt-1">
+                <ColorPicker
                   value={styles.progressBackground}
-                  onChange={(e) => updateStyle('progressBackground', e.target.value)}
-                  className="w-12 h-8 p-0 border-0"
-                />
-                <Input
-                  value={styles.progressBackground}
-                  onChange={(e) => updateStyle('progressBackground', e.target.value)}
-                  className="flex-1"
+                  onChange={(value) => updateStyle('progressBackground', value)}
                 />
               </div>
             </div>
             <div>
               <Label htmlFor="progressBackground2">Background Color 2</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Input
-                  type="color"
+              <div className="mt-1">
+                <ColorPicker
                   value={styles.progressBackground2}
-                  onChange={(e) => updateStyle('progressBackground2', e.target.value)}
-                  className="w-12 h-8 p-0 border-0"
-                />
-                <Input
-                  value={styles.progressBackground2}
-                  onChange={(e) => updateStyle('progressBackground2', e.target.value)}
-                  className="flex-1"
+                  onChange={(value) => updateStyle('progressBackground2', value)}
                 />
               </div>
             </div>
@@ -193,17 +159,10 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
             </div>
             <div>
               <Label htmlFor="progressTextColor">Text Color</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Input
-                  type="color"
+              <div className="mt-1">
+                <ColorPicker
                   value={styles.progressTextColor}
-                  onChange={(e) => updateStyle('progressTextColor', e.target.value)}
-                  className="w-12 h-8 p-0 border-0"
-                />
-                <Input
-                  value={styles.progressTextColor}
-                  onChange={(e) => updateStyle('progressTextColor', e.target.value)}
-                  className="flex-1"
+                  onChange={(value) => updateStyle('progressTextColor', value)}
                 />
               </div>
             </div>
@@ -227,17 +186,10 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
             </div>
             <div>
               <Label htmlFor="progressRightBorderColor">Right Border Color</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Input
-                  type="color"
+              <div className="mt-1">
+                <ColorPicker
                   value={styles.progressRightBorderColor}
-                  onChange={(e) => updateStyle('progressRightBorderColor', e.target.value)}
-                  className="w-12 h-8 p-0 border-0"
-                />
-                <Input
-                  value={styles.progressRightBorderColor}
-                  onChange={(e) => updateStyle('progressRightBorderColor', e.target.value)}
-                  className="flex-1"
+                  onChange={(value) => updateStyle('progressRightBorderColor', value)}
                 />
               </div>
             </div>
