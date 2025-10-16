@@ -132,7 +132,7 @@ if (styles.fixOverflow) {
   return (
     <div className="h-full flex flex-col bg-card border-r">
       <div className="p-4 border-b">
-        <h2 className="text-lg md:text-xl font-semibold mb-4 break-words">Tipbox Style</h2>
+        <h2 className="text-lg md:text-xl font-semibold mb-4 break-words">Kawaii Tipbox</h2>
 
         <Tabs className='mb-4' value={mode} onValueChange={(value) => {
           setMode(value as 'basic' | 'advanced');
