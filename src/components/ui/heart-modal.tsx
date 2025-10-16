@@ -114,14 +114,14 @@ export function HeartModalWrapper({ children, open, onOpenChange }: HeartModalPr
               <p className="flex items-center justify-center flex-wrap gap-1.5">
                 <span>Made with ❤️, source opened on</span>
                 <a
-                  href="https://github.com/M0M0K4S4N/tipbox-style-app"
+                  href="https://github.com/M0M0K4S4N/kawaii-tipbox"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-primary hover:underline transition-colors"
                   aria-label="View source on GitHub"
                 >
                   <Github className="h-4 w-4" />
-                  <span>M0M0K4S4N/tipbox-style-app</span>
+                  <span>M0M0K4S4N/kawaii-tipbox</span>
                 </a>
               </p>
               
