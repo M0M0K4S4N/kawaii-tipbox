@@ -16,8 +16,8 @@ const DEFAULT_CONFIG: MobileAlertConfig = {
   showAgainOption: true
 }
 
-const STORAGE_KEY = "tipstyle-mobile-alert-dismissed"
-const SESSION_KEY = "tipstyle-mobile-alert-session"
+const STORAGE_KEY = "kawaii-tipbox-mobile-alert-dismissed"
+const SESSION_KEY = "kawaii-tipbox-mobile-alert-session"
 
 export function useMobileAlert() {
   const [config, setConfig] = React.useState<MobileAlertConfig>(DEFAULT_CONFIG)
@@ -35,7 +35,7 @@ export function useMobileAlert() {
     setHasShownInSession(sessionShown)
 
     // Load custom config if available (for future admin customization)
-    const savedConfig = localStorage.getItem("tipstyle-mobile-alert-config")
+    const savedConfig = localStorage.getItem("kawaii-tipbox-mobile-alert-config")
     if (savedConfig) {
       try {
         const parsedConfig = JSON.parse(savedConfig)
@@ -75,7 +75,7 @@ export function useMobileAlert() {
   const updateConfig = React.useCallback((newConfig: Partial<MobileAlertConfig>) => {
     const updatedConfig = { ...config, ...newConfig }
     setConfig(updatedConfig)
-    localStorage.setItem("tipstyle-mobile-alert-config", JSON.stringify(updatedConfig))
+    localStorage.setItem("kawaii-tipbox-mobile-alert-config", JSON.stringify(updatedConfig))
   }, [config])
 
   return {

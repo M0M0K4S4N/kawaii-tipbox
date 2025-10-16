@@ -1,4 +1,4 @@
-# Tipbox Style
+# Kawaii Tipbox
 
 Design your TipMe donation box in the easy way :D
 
@@ -13,8 +13,8 @@ Design your TipMe donation box in the easy way :D
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/tipbox-style.git
-cd tipbox-style
+git clone https://github.com/M0M0K4S4N/kawaii-tipbox.git
+cd kawaii-tipbox
 ```
 
 2. Install dependencies:

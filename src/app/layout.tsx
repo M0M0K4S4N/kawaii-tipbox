@@ -14,26 +14,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tipbox Style | Donation box CSS editor",
+  title: "Kawaii Tipbox",
   description: "Design your TipMe donation box in the easy way :D",
-  keywords: ["donation", "css", "editor", "tipme", "tipbox", "style", "customization"],
-  authors: [{ name: "Tipbox Style" }],
-  creator: "Tipbox Style",
-  publisher: "Tipbox Style",
+  keywords: ["donation", "css", "editor", "tipme", "tipbox", "kawaii", "customization", "โดเนท", "ทิปมี", "กล่องโดเนท"],
+  authors: [{ name: "@M0M0K4S4N" }],
+  creator: "@M0M0K4S4N",
+  publisher: "@M0M0K4S4N",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://tipbox-style-app.vercel.app"),
+  metadataBase: new URL("https://tipbox.kawaiiii.dev"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Tipbox Style | Donation box CSS editor",
+    title: "Kawaii Tipbox",
     description: "Design your TipMe donation box in the easy way :D",
-    url: "https://tipbox-style-app.vercel.app",
-    siteName: "Tipbox Style",
+    url: "https://tipbox.kawaiiii.dev",
+    siteName: "Kawaii Tipbox",
     images: [
       {
         url: "/og-image.png",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tipbox Style | Donation box CSS editor",
+    title: "Kawaii Tipbox",
     description: "Design your TipMe donation box in the easy way :D",
     images: ["/og-image.png"],
     creator: "@M0M0K4S4N",
@@ -69,10 +69,10 @@ export const metadata: Metadata = {
   },
   other: {
     "discord:card": "summary_large_image",
-    "discord:title": "Tipbox Style | Donation box CSS editor",
+    "discord:title": "Kawaii Tipbox",
     "discord:description": "Design your TipMe donation box in the easy way :D",
     "discord:image": "/og-image.png",
-    "discord:url": "https://tipbox-style-app.vercel.app",
+    "discord:url": "https://tipbox.kawaiiii.dev",
     "theme-color": "#ffffff",
   },
 };
