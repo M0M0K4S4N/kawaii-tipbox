@@ -103,7 +103,7 @@ export function HeartModalWrapper({ children, open, onOpenChange }: HeartModalPr
   return (
     <HeartModal open={open} onOpenChange={onOpenChange}>
       <HeartModalContent>
-        <HeartModalTitle>About Tipbox Style</HeartModalTitle>
+        <HeartModalTitle>About Kawaii Tipbox</HeartModalTitle>
         <HeartModalContentInner>
           <div className="flex flex-col space-y-4">
             <div className="flex items-center justify-center">
