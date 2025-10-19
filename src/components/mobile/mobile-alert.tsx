@@ -151,7 +151,7 @@ export function MobileAlert({
                     htmlFor="dont-show-again"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                   >
-                    Don't show this message again
+                    ไม่ต้องแสดงอีก
                   </label>
                 </div>
               )}
@@ -163,7 +163,7 @@ export function MobileAlert({
                   className="flex-1"
                   aria-label="Continue on mobile device"
                 >
-                  Continue Anyway
+                  ตกลง
                 </Button>
               </div>
             </div>
