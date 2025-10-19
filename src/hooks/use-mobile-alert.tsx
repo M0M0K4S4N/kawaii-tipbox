@@ -10,8 +10,8 @@ interface MobileAlertConfig {
 
 const DEFAULT_CONFIG: MobileAlertConfig = {
   enabled: true,
-  title: "Mobile Device Detected",
-  message: "Some features may not function optimally on mobile browsers. For the best experience, we recommend using Firefox or Google Chrome on a desktop computer.",
+  title: "ตรวจพบอุปกรณ์มือถือ",
+  message: "บางฟีเจอร์อาจไม่สามารถทำงานอย่างมีประสิทธิภาพบนเบราว์เซอร์มือถือ สำหรับประสบการณ์ที่ดีที่สุด เราแนะนำให้ใช้ Firefox หรือ Google Chrome บนคอมพิวเตอร์ที่มีขนาดหน้าจออย่างน้อย 1960x1080",
   recommendBrowsers: ["Firefox", "Google Chrome"],
   showAgainOption: true
 }
