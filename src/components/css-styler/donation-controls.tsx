@@ -30,8 +30,8 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
   return (
     <ScrollArea className="h-full p-4">
       <div className="space-y-6">
-        <div>
-          <h2 className="text-sm font-semibold mb-3 text-muted-foreground">Misc</h2>
+        <div className='hidden'>
+          <h2 className="text font-semibold mb-3 text-muted-foreground">Misc</h2>
           <div className="space-y-4">
             <div>
               <Label htmlFor="fixOverflow">Fix overflow</Label>
@@ -49,10 +49,10 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
         </div>
         {/* Background */}
         <div>
-          <h2 className="text-sm font-semibold mb-3 text-muted-foreground">Background</h2>
+          <h2 className="text font-semibold mb-3 text-muted-foreground">พื้นหลัง</h2>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="barBackground">Background Color</Label>
+              <Label htmlFor="barBackground">สีที่ 1</Label>
               <div className="mt-1">
                 <ColorPicker
                   value={styles.barBackground}
@@ -61,7 +61,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="barBackground2">Background Color 2</Label>
+              <Label htmlFor="barBackground2">สีที่ 2</Label>
               <div className="mt-1">
                 <ColorPicker
                   value={styles.barBackground2}
@@ -70,7 +70,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="barRoundness">Roundness</Label>
+              <Label htmlFor="barRoundness">ความโค้งมน</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Slider
                   value={[parseInt(styles.barRoundness)]}
@@ -88,7 +88,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="barBorder">Border</Label>
+              <Label htmlFor="barBorder">ขนาดขอบ</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Slider
                   value={[parseInt(styles.barBorder)]}
@@ -106,7 +106,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="barBorderColor">Border Color</Label>
+              <Label htmlFor="barBorderColor">สีขอบ</Label>
               <div className="mt-1">
                 <ColorPicker
                   value={styles.barBorderColor}
@@ -119,10 +119,10 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
 
         {/* Progress Bar */}
         <div>
-          <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Progress Bar</h3>
+          <h3 className="text font-semibold mb-3 text-muted-foreground">ความคืบหน้า</h3>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="progressBackground">Background Color</Label>
+              <Label htmlFor="progressBackground">สีที่ 1</Label>
               <div className="mt-1">
                 <ColorPicker
                   value={styles.progressBackground}
@@ -131,7 +131,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="progressBackground2">Background Color 2</Label>
+              <Label htmlFor="progressBackground2">สีที่ 2</Label>
               <div className="mt-1">
                 <ColorPicker
                   value={styles.progressBackground2}
@@ -140,7 +140,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="progressTextColor">Text Color</Label>
+              <Label htmlFor="progressTextColor">สีข้อความ</Label>
               <div className="mt-1">
                 <ColorPicker
                   value={styles.progressTextColor}
@@ -149,7 +149,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="progressRightBorder">Right Border</Label>
+              <Label htmlFor="progressRightBorder">ขนาดแต้มสีปลายหลอด</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Slider
                   value={[parseInt(styles.progressRightBorder)]}
@@ -167,7 +167,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="progressRightBorderColor">Right Border Color</Label>
+              <Label htmlFor="progressRightBorderColor">สีปลายหลอด</Label>
               <div className="mt-1">
                 <ColorPicker
                   value={styles.progressRightBorderColor}
@@ -180,10 +180,10 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
 
         {/* Emoji */}
         <div>
-          <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Emoji</h3>
+          <h3 className="text font-semibold mb-3 text-muted-foreground">อีโมจิ</h3>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="emojiPosition">Emoji Position (related to progress bar)</Label>
+              <Label htmlFor="emojiPosition">ตำแหน่งอีโมจิ (สัมพันธ์กับหลอด)</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Slider
                   value={[parseInt(styles.emojiPosition)]}
@@ -201,7 +201,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="emojiSize">Emoji Size</Label>
+              <Label htmlFor="emojiSize">ขนาดอีโมจิ</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Slider
                   value={[parseInt(styles.emojiSize)]}
@@ -220,7 +220,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
             </div>
             <div>
               <Label htmlFor="emoji">
-                Emoji
+                อีโมจิ
               </Label>
               <div className='flex space-x-2 mt-1 mb-4 items-center justify-center'>
                 {/* Box to show emoji */}

@@ -144,10 +144,10 @@ if (styles.fixOverflow) {
           </TabsList>
         </Tabs>
         <Alert variant="destructive">
-          <AlertTitle><b>Warning!</b></AlertTitle>
+          <AlertTitle><b>คำเตือน!</b></AlertTitle>
           <AlertDescription>
-            Switching back to the basic editor may result in <b>your custom CSS being lost</b>.
-            <br/>Please be sure to <b>save any changes</b> before switching..
+            หากกลับไปที่โหมด Basic อาจทำให้การเปลี่ยนแปลงที่โหมด Advanced <b>หายไป</b>
+            <br/>กรุณาบันทึก CSS ที่ต้องการก่อนสลับโหมด
           </AlertDescription>
         </Alert>
       </div>
