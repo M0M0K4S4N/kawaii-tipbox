@@ -140,24 +140,6 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
               </div>
             </div>
             <div>
-              <Label htmlFor="progressRoundness">Roundness</Label>
-              <div className="flex items-center space-x-2 mt-1">
-                <Slider
-                  value={[parseInt(styles.progressRoundness)]}
-                  onValueChange={([value]) => updateStyle('progressRoundness', `${value}px`)}
-                  max={25}
-                  min={0}
-                  step={1}
-                  className="flex-1"
-                />
-                <Input
-                  value={styles.progressRoundness}
-                  onChange={(e) => updateStyle('progressRoundness', e.target.value)}
-                  className="w-20 text-xs"
-                />
-              </div>
-            </div>
-            <div>
               <Label htmlFor="progressTextColor">Text Color</Label>
               <div className="mt-1">
                 <ColorPicker

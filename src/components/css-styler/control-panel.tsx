@@ -87,7 +87,7 @@ export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMo
 .DonateGoal_progress__done {
   background: linear-gradient(180deg, ${styles.progressBackground}, ${styles.progressBackground2});
   border-right: ${styles.progressRightBorder} solid ${styles.progressRightBorderColor};
-  border-radius: ${styles.progressRoundness};
+  border-radius: ${styles.barRoundness};
   height: 100% !important;
 }
 `;
