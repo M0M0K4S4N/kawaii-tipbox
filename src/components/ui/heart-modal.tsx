@@ -126,10 +126,13 @@ export function HeartModalWrapper({ children, open, onOpenChange }: HeartModalPr
               </p>
               
               <p className="text-muted-foreground px-2">
-                แอปพลิเคชันนี้ให้บริการปรับแต่ง CSS เท่านั้น มิได้ส่วนเกี่ยวข้องกับ tipme.in.th แต่อย่างใด
-                <br/>
-                ภาพที่แสดงอาจแตกต่างกับผลลัพธ์จริง กรุณาตรวจสอบอีกครั้งก่อนใช้งาน
+                แอปพลิเคชันนี้ให้บริการปรับแต่ง CSS เท่านั้น <br/>
+                มิได้ส่วนเกี่ยวข้องกับ tipme หรือบริการอื่นใด ๆ ทั้งสิ้น
               </p>
+                <p className="text-muted-foreground px-2">
+                  ภาพที่แสดงอาจแตกต่างกับผลลัพธ์จริง<br/>
+                  กรุณาตรวจสอบอีกครั้งก่อนใช้งาน
+                </p>
             </div>
           </div>
         </HeartModalContentInner>

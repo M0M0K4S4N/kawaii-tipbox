@@ -62,45 +62,69 @@ export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMo
   const [mode, setMode] = useState<'basic' | 'advanced'>(initialMode);
   const [copied, setCopied] = useState(false);
 
+  const remapCss = (css: string) => {
+      return css.replaceAll('.goal', '.DonateGoal_style__goal')
+        .replaceAll('.name', '.DonateGoal_style__name')
+        .replaceAll('.progress', '.DonateGoal_progress__progress')
+        .replaceAll('.done', '.DonateGoal_progress__done')
+        .replaceAll('.text', '.DonateGoal_progress__text')
+        .replaceAll('.legend', '.DonateGoal_style__legend')
+        .replaceAll('.start', '.DonateGoal_style__start')
+        .replaceAll('.deadline', '.DonateGoal_style__deadline')
+        .replaceAll('.end', '.DonateGoal_style__end')
+  }
+
+  const remapBack = (css: string) => {
+    return css.replaceAll('.DonateGoal_style__goal', '.goal')
+      .replaceAll('.DonateGoal_style__name', '.name')
+      .replaceAll('.DonateGoal_progress__progress', '.progress')
+      .replaceAll('.DonateGoal_progress__done', '.done')
+      .replaceAll('.DonateGoal_progress__text', '.text')
+      .replaceAll('.DonateGoal_style__legend', '.legend')
+      .replaceAll('.DonateGoal_style__start', '.start')
+      .replaceAll('.DonateGoal_style__deadline', '.deadline')
+      .replaceAll('.DonateGoal_style__end', '.end')
+  }
+
   const generateCSS = useCallback(() => {
-    let cssText: string = `.DonateGoal_progress__text {
+    let cssText: string = '';
+    if (styles.fixOverflow) {
+      cssText += `/* Fix overflow */
+.goal {
+  width: 98%;
+  margin: auto;
+}
+
+`;
+}
+    cssText += `.text {
   color: ${styles.progressTextColor};
 }
 
-.DonateGoal_style__goal {
+.goal {
   color: ${styles.progressTextColor};
 }
 
-.DonateGoal_progress__done::after {
+.done::after {
   content: "${styles.emoji}";
   float: right;
   margin-right: ${styles.emojiPosition};
   font-size: ${styles.emojiSize};
 }
 
-.DonateGoal_progress__progress {
+.progress {
   background: linear-gradient(180deg, ${styles.barBackground}, ${styles.barBackground2});
   border-radius: ${styles.barRoundness};
   border: ${styles.barBorder} solid ${styles.barBorderColor};
 }
 
-.DonateGoal_progress__done {
+.done {
   background: linear-gradient(180deg, ${styles.progressBackground}, ${styles.progressBackground2});
   border-right: ${styles.progressRightBorder} solid ${styles.progressRightBorderColor};
   border-radius: ${styles.barRoundness};
   height: 100% !important;
 }
 `;
-
-if (styles.fixOverflow) {
-  cssText += `
-/* Fix overflow */
-.DonateGoal_style__goal {
-  width: 98%;
-  margin: auto;
-}
-`;
-}
 
     return cssText;
   }, [styles]);
@@ -114,7 +138,7 @@ if (styles.fixOverflow) {
 
   const handleCopyCSS = async () => {
     try {
-      await navigator.clipboard.writeText(cssText);
+      await navigator.clipboard.writeText(remapBack(cssText));
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -124,8 +148,8 @@ if (styles.fixOverflow) {
 
   const handleAdvancedCSSChange = (css: string) => {
     if (mode === 'advanced') {
-      setCssText(css);
-      localStorage.setItem('donationCssText', css);
+      setCssText(remapBack(css));
+      localStorage.setItem('donationCssText', remapBack(css));
     }
   };
 
@@ -159,7 +183,7 @@ if (styles.fixOverflow) {
           </TabsContent>
           <TabsContent value="advanced" className="h-full m-0">
             <AdvancedEditor
-              css={cssText}
+              css={remapCss(cssText)}
               onChange={handleAdvancedCSSChange}
             />
           </TabsContent>
