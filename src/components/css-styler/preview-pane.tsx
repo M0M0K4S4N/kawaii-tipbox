@@ -11,126 +11,119 @@ export const PreviewPane = ({ cssText }: {
     <div className="h-full overflow-auto bg-muted p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <style>{`
-          .manager_style__error {
-            background-color: #a8262699;
-            color: #fff;
-            font-size: 16pt;
-            left: 10px;
-            padding: 15px;
-            position: absolute;
-            text-overflow: ellipsis;
-            top: 10px;
-            white-space: nowrap
-          }
+.DonateGoal_progress__progress {
+  background: linear-gradient(180deg, #aaa, #888);
+}
 
-          .manager_style__autohide {
-            animation: manager_style__hide 1ms 60s
-          }
+.DonateGoal_progress__progress {
+  box-shadow: 0 0 10px #000;
+}
 
-          @keyframes manager_style__hide {
-            0% {
-              opacity: 1
-            }
+.DonateGoal_progress__progress {
+  height: 42px;
+}
 
-            to {
-              opacity: 0
-            }
-          }
+.DonateGoal_progress__progress {
+  line-height: 42px;
+}
 
-          .DonateGoal_progress__progress {
-            background: linear-gradient(180deg, #aaa, #888);
-            box-shadow: 0 0 10px #000;
-            height: 42px;
-            line-height: 42px;
-            position: relative;
-            width: 100%
-          }
+.DonateGoal_progress__progress {
+  position: relative;
+}
 
-          .DonateGoal_progress__done {
-            background: linear-gradient(180deg, #71e251, #509e39);
-            border-right: 2px solid #444;
-            height: 42px;
-            left: 0;
-            position: absolute;
-            top: 0;
-            transition: width 1s ease-out;
-            width: 30%;
-          }
+.DonateGoal_progress__progress {
+  width: 100%;
+}
 
-          .DonateGoal_progress__text {
-            position: relative
-          }
+.DonateGoal_progress__done {
+  background: linear-gradient(180deg, #71e251, #509e39);
+}
 
-          .DonateGoal_style__goal {
-            color: #fff;
-            font-size: 14pt;
-            text-align: center;
-            text-shadow: #000 0 0 20px
-          }
+.DonateGoal_progress__done {
+  border-right: 2px solid #444;
+}
 
-          .DonateGoal_style__name {
-            margin-bottom: 10px
-          }
+.DonateGoal_progress__done {
+  height: 42px;
+}
 
-          .DonateGoal_style__legend {
-            display: flex;
-            flex-direction: row
-          }
+.DonateGoal_progress__done {
+  left: 0;
+}
 
-          .DonateGoal_style__deadline,
-          .DonateGoal_style__end,
-          .DonateGoal_style__start {
-            flex: 1
-          }
+.DonateGoal_progress__done {
+  position: absolute;
+}
 
-          .DonateGoal_style__start {
-            text-align: left
-          }
+.DonateGoal_progress__done {
+  top: 0;
+}
 
-          .DonateGoal_style__end {
-            text-align: right
-          }
+.DonateGoal_progress__done {
+  width: 30%;
+}
 
-          .DonateGoal_style__deadline {
-            text-align: center
-          }
+/* For preview */
+.DonateGoal_progress__done {
+  width: 30%;
+}
 
-          /* For preview */
-          .DonateGoal_progress__done {
-            width: 30%;
-          }
+.text {
+  position: relative;
+}
+
+.DonateGoal_style__goal {
+  color: #fff;
+}
+
+.DonateGoal_style__goal {
+  font-size: 14pt;
+}
+
+.DonateGoal_style__goal {
+  text-align: center;
+}
+
+.DonateGoal_style__goal {
+  text-shadow: #000 0 0 20px;
+}
+
+.DonateGoal_style__name {
+  margin-bottom: 10px;
+}
+
+.DonateGoal_style__legend {
+  display: flex;
+}
+
+.DonateGoal_style__legend {
+  flex-direction: row;
+}
+
+.DonateGoal_style__deadline {
+  flex: 1;
+}
+
+.DonateGoal_style__end {
+  flex: 1;
+}
+
+.DonateGoal_style__start {
+  flex: 1;
+}
+
+.DonateGoal_style__start {
+  text-align: left;
+}
+
+.DonateGoal_style__end {
+  text-align: right;
+}
+
+.DonateGoal_style__deadline {
+  text-align: center;
+}
         `}</style>
-
-        {/* Custom style */}
-        {/* <style jsx>{`
-          .DonateGoal_progress__progress {
-            background: linear-gradient(180deg, #aaaaaa, #888888);
-            border-radius: 25px;
-            border: 1px solid rgb(252, 140, 140);
-          }
-
-          .DonateGoal_progress__done {
-            background: linear-gradient(180deg, #71e251, #509e39);
-            border-right: 2px solid #444444;
-            border-radius: 25px;
-            height: 100%;
-          }
-
-          .DonateGoal_progress__text {
-            color: #ffffff;
-          }
-
-          .DonateGoal_style__goal {
-            color: #ffffff;
-          }
-
-          .DonateGoal_progress__done::after {
-            content: "";
-            float: right;
-            margin-right: -16px;
-            font-size: 24pt;
-          }
-        `}</style> */}
 
         <style>{`
           ${cssText}
