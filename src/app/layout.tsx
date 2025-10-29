@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { MobileProvider } from "@/components/mobile/mobile-provider";
 import { Analytics } from "@vercel/analytics/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
 
@@ -88,7 +89,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <MobileProvider>
+          {children}
+        </MobileProvider>
         <Analytics />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""}/>
       </body>
