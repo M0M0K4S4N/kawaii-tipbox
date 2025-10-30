@@ -12,6 +12,7 @@ export const CSSStylerApp = () => {
   const [styles, setStyles] = useState<DonationStyles>(defaultStyles);
   const [cssText, setCssText] = useState<string>("");
   const [mode, setMode] = useState<'basic' | 'advanced' | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -31,6 +32,11 @@ export const CSSStylerApp = () => {
     } else {
       setMode('basic');
     }
+
+    const savedDarkMode = localStorage.getItem('previewDarkMode');
+    if (savedDarkMode) {
+      setIsDarkMode(savedDarkMode === 'true');
+    }
   }, []);
 
   useEffect(() => {
@@ -41,6 +47,10 @@ export const CSSStylerApp = () => {
   useEffect(() => {
     localStorage.setItem('mode', mode || '');
   }, [mode]);
+
+  useEffect(() => {
+    localStorage.setItem('previewDarkMode', isDarkMode.toString());
+  }, [isDarkMode]);
 
   const handleTemplateSelect = (template: Template) => {
     // Switch to advanced mode
@@ -71,7 +81,7 @@ export const CSSStylerApp = () => {
         <div className="h-px bg-border" />
         <div className="flex-1 overflow-hidden">
           {!mode && loadingText}
-          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} />}
+          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} isDarkMode={isDarkMode} onToggleDarkMode={() => setIsDarkMode(!isDarkMode)} />}
         </div>
       </div>
     );
@@ -88,7 +98,7 @@ export const CSSStylerApp = () => {
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={60} minSize={40}>
           {!mode && loadingText}
-          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} />}
+          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} isDarkMode={isDarkMode} onToggleDarkMode={() => setIsDarkMode(!isDarkMode)} />}
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

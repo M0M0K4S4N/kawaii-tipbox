@@ -4,17 +4,32 @@ import React from 'react';
 import { ControlPanel } from './control-panel';
 import { TemplateSelector, Template } from './template-selector';
 import { templates } from './template-data';
+import { Switch } from '@/components/ui/switch';
+import { Sun, Moon } from 'lucide-react';
 
 export const PreviewPane = ({
   cssText,
-  onTemplateSelect
+  onTemplateSelect,
+  isDarkMode,
+  onToggleDarkMode
 }: {
   cssText: string;
   onTemplateSelect?: (template: Template) => void;
+  isDarkMode?: boolean;
+  onToggleDarkMode?: () => void;
 }) => {
   return (
-    <div className="h-full overflow-auto bg-muted p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className={`h-full overflow-auto p-8 relative`} style={{ backgroundColor: isDarkMode ? '#333' : '#fff' }}>
+      {/* Dark Mode Toggle */}
+      <div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
+        <Sun className="h-4 w-4" color={isDarkMode ? '#fff' : '#000'} />
+        <Switch
+          checked={isDarkMode}
+          onCheckedChange={onToggleDarkMode}
+        />
+        <Moon className="h-4 w-4" color={isDarkMode ? '#fff' : '#000'} />
+      </div>
+      <div className={`max-w-4xl mx-auto space-y-6`}>
         <style>{`
           .manager_style__error {
             background-color: #a8262699;
