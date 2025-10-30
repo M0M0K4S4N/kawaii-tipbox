@@ -52,14 +52,17 @@ export const defaultStyles: DonationStyles = {
   fixOverflow: true,
 };
 
-export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMode }: {
+export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMode, mode: externalMode, onModeChange }: {
   styles: DonationStyles;
   setStyles: (styles: DonationStyles) => void;
   cssText: string;
   setCssText: (cssText: string) => void;
   initialMode: 'basic' | 'advanced';
+  mode?: 'basic' | 'advanced';
+  onModeChange?: (mode: 'basic' | 'advanced') => void;
 }) => {
-  const [mode, setMode] = useState<'basic' | 'advanced'>(initialMode);
+  const [internalMode, setInternalMode] = useState<'basic' | 'advanced'>(initialMode);
+  const mode = externalMode || internalMode;
   const [copied, setCopied] = useState(false);
 
   const generateCSS = useCallback(() => {
@@ -135,7 +138,12 @@ if (styles.fixOverflow) {
         <h2 className="text-lg md:text-xl font-semibold mb-4 break-words">Kawaii Tipbox</h2>
 
         <Tabs className='mb-4' value={mode} onValueChange={(value) => {
-          setMode(value as 'basic' | 'advanced');
+          const newMode = value as 'basic' | 'advanced';
+          if (onModeChange) {
+            onModeChange(newMode);
+          } else {
+            setInternalMode(newMode);
+          }
           localStorage.setItem('mode', value);
         }}>
           <TabsList className="grid w-full grid-cols-2">

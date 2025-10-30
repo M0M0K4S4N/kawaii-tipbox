@@ -5,6 +5,7 @@ import { ControlPanel, DonationStyles, defaultStyles } from './control-panel';
 import { PreviewPane } from './preview-pane';
 import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from '@/components/ui/resizable';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Template } from './template-selector';
 
 
 export const CSSStylerApp = () => {
@@ -37,6 +38,22 @@ export const CSSStylerApp = () => {
     localStorage.setItem('donationCssText', cssText);
   }, [styles, cssText]);
 
+  useEffect(() => {
+    localStorage.setItem('mode', mode || '');
+  }, [mode]);
+
+  const handleTemplateSelect = (template: Template) => {
+    // Switch to advanced mode
+    setMode('advanced');
+    
+    // Apply the template CSS
+    setCssText(template.css);
+    
+    // Save to localStorage
+    localStorage.setItem('mode', 'advanced');
+    localStorage.setItem('donationCssText', template.css);
+  };
+
   const loadingText = (
     <div className="flex items-center justify-center h-full w-full">
       <div>Loading...</div>
@@ -49,12 +66,12 @@ export const CSSStylerApp = () => {
       <div className="h-screen flex flex-col">
         <div className="flex-1 overflow-hidden">
           {!mode && loadingText}
-          {mode && <ControlPanel styles={styles} setStyles={setStyles} cssText={cssText} setCssText={setCssText} initialMode={mode} />}
+          {mode && <ControlPanel styles={styles} setStyles={setStyles} cssText={cssText} setCssText={setCssText} initialMode={mode} mode={mode} onModeChange={setMode} />}
         </div>
         <div className="h-px bg-border" />
         <div className="flex-1 overflow-hidden">
           {!mode && loadingText}
-          {mode && <PreviewPane cssText={cssText} />}
+          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} />}
         </div>
       </div>
     );
@@ -66,12 +83,12 @@ export const CSSStylerApp = () => {
       <ResizablePanelGroup direction="horizontal" className="h-full">
         <ResizablePanel defaultSize={40} minSize={25} maxSize={60}>
           {!mode && loadingText}
-          {mode && <ControlPanel styles={styles} setStyles={setStyles} cssText={cssText} setCssText={setCssText} initialMode={mode} />}
+          {mode && <ControlPanel styles={styles} setStyles={setStyles} cssText={cssText} setCssText={setCssText} initialMode={mode} mode={mode} onModeChange={setMode} />}
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={60} minSize={40}>
           {!mode && loadingText}
-          {mode && <PreviewPane cssText={cssText} />}
+          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} />}
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

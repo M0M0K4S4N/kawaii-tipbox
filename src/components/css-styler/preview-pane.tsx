@@ -2,10 +2,15 @@
 
 import React from 'react';
 import { ControlPanel } from './control-panel';
+import { TemplateSelector, Template } from './template-selector';
+import { templates } from './template-data';
 
-
-export const PreviewPane = ({ cssText }: {
-  cssText: string
+export const PreviewPane = ({
+  cssText,
+  onTemplateSelect
+}: {
+  cssText: string;
+  onTemplateSelect?: (template: Template) => void;
 }) => {
   return (
     <div className="h-full overflow-auto bg-muted p-8">
@@ -149,6 +154,14 @@ export const PreviewPane = ({ cssText }: {
             <div className="DonateGoal_style__end">฿100</div>
           </div>
         </div>
+
+        {/* Template Selector */}
+        {onTemplateSelect && (
+          <TemplateSelector
+            templates={templates}
+            onTemplateSelect={onTemplateSelect}
+          />
+        )}
       </div>
     </div>
   );
