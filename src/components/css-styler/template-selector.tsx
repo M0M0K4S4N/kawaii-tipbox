@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 export interface Template {
   id: string;
   name: string;
+  featured: boolean;
   background: string;
   css: string;
 }

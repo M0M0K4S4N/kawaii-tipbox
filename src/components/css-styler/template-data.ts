@@ -4,6 +4,7 @@ export const templates: Template[] = [
   {
     id: 'default',
     name: 'Default',
+    featured: false,
     background: 'radial-gradient(circle, #71e251, #888888)',
     css: `.DonateGoal_progress__text {
   color: #ffffff;
@@ -43,6 +44,7 @@ export const templates: Template[] = [
   {
     id: 'kawaii',
     name: 'Kawaii',
+    featured: false,
     background: 'radial-gradient(circle, #ff69b4, #ffb6c1)',
     css: `.DonateGoal_progress__text {
   color: #ff69b4;
@@ -81,6 +83,7 @@ export const templates: Template[] = [
   {
     id: 'neon',
     name: 'Neon',
+    featured: false,
     background: 'radial-gradient(circle, #00ffff, #16213e)',
     css: `.DonateGoal_progress__text {
   color: #00ffff;
@@ -123,6 +126,7 @@ export const templates: Template[] = [
   {
     id: 'nature',
     name: 'Nature',
+    featured: false,
     background: 'radial-gradient(circle, #8b7355, #6b5d4f)',
     css: `.DonateGoal_progress__text {
   color: #ffffff;
@@ -161,6 +165,7 @@ export const templates: Template[] = [
   {
     id: 'ocean',
     name: 'Ocean',
+    featured: false,
     background: 'radial-gradient(circle, #00bfff, #1e90ff)',
     css: `.DonateGoal_progress__text {
   color: #ffffff;
@@ -186,6 +191,45 @@ export const templates: Template[] = [
 .DonateGoal_progress__done {
   background: linear-gradient(180deg, #00bfff, #0080ff);
   border-right: 2px solid #006994;
+  border-radius: 20px;
+  height: 100% !important;
+}
+
+/* Fix overflow */
+.DonateGoal_style__goal {
+  width: 98%;
+  margin: auto;
+}`
+  },
+  {
+    id: 'halloween',
+    name: 'Halloween',
+    featured: true,
+    background: 'radial-gradient(circle, #ff8c00, #ff4500)',
+    css: `.DonateGoal_progress__text {
+  color: #8b4513;
+}
+
+.DonateGoal_style__goal {
+  color: #ff8c00;
+}
+
+.DonateGoal_progress__done::after {
+  content: "🎃";
+  float: right;
+  margin-right: -16px;
+  font-size: 38pt;
+}
+
+.DonateGoal_progress__progress {
+  background: linear-gradient(180deg, #ffd700, #ff8c00);
+  border-radius: 20px;
+  border: 2px solid #8b4513;
+}
+
+.DonateGoal_progress__done {
+  background: linear-gradient(180deg, #ff8c00, #d73800);
+  border-right: 2px solid #8b4513;
   border-radius: 20px;
   height: 100% !important;
 }
