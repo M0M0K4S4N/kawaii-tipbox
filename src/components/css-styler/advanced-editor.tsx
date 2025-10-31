@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Sun, Moon, Monitor } from 'lucide-react';
+import { Sun, Moon, Monitor, ExternalLink } from 'lucide-react';
 
 interface AdvancedEditorProps {
   css: string;
@@ -68,9 +68,19 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
             </SelectContent>
           </Select>
         </div>
-        <Button onClick={formatCSS} variant="outline" size="sm">
-          Format CSS
-        </Button>
+        <div className="flex items-center space-x-2">
+          <Button onClick={formatCSS} variant="outline" size="sm">
+            Format CSS
+          </Button>
+          <Button
+            onClick={() => window.open('https://www.w3schools.com/css/', '_blank')}
+            variant="outline"
+            size="sm"
+          >
+            <ExternalLink className="w-4 h-4 mr-2" />
+            Learn CSS
+          </Button>
+        </div>
       </div>
       
       <div className="flex-1">
