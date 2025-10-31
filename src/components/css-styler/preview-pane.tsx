@@ -1,10 +1,11 @@
 "use client";
 
-import React from 'react';
-import { ControlPanel } from './control-panel';
+import React, { useState } from 'react';
 import { TemplateSelector, Template } from './template-selector';
 import { templates } from './template-data';
+import { CSSClassOverlay } from './css-class-overlay';
 import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import { Sun, Moon } from 'lucide-react';
 
 export const PreviewPane = ({
@@ -18,6 +19,8 @@ export const PreviewPane = ({
   isDarkMode?: boolean;
   onToggleDarkMode?: () => void;
 }) => {
+  const [isCSSClassOverlayEnabled, setIsCSSClassOverlayEnabled] = React.useState(false);
+
   return (
     <div className={`h-full overflow-auto p-8 relative`} style={{ backgroundColor: isDarkMode ? '#333' : '#fff' }}>
       {/* Dark Mode Toggle */}
@@ -29,6 +32,21 @@ export const PreviewPane = ({
         />
         <Moon className="h-4 w-4" color={isDarkMode ? '#fff' : '#000'} />
       </div>
+
+      {/* CSS Class Overlay Toggle */}
+      <div className="absolute top-4 left-4 z-10 flex items-center space-x-2">
+        <Label style={{ color: isDarkMode ? '#fff' : '#000' }}>เปิดตัวช่วยดู Class</Label>
+        <Switch
+          checked={isCSSClassOverlayEnabled}
+          onCheckedChange={setIsCSSClassOverlayEnabled}
+        />
+      </div>
+
+      {/* CSS Class Overlay */}
+      <CSSClassOverlay
+        enabled={isCSSClassOverlayEnabled}
+      />
+
       <div className={`max-w-4xl mx-auto space-y-6`}>
         <style>{`
           .manager_style__error {
@@ -157,16 +175,16 @@ export const PreviewPane = ({
         `}</style>
 
         {/* Sample HTML Elements */}
-        <div className="DonateGoal_style__goal">
-          <div className="DonateGoal_style__name">Tip box</div>
-          <div className="DonateGoal_progress__progress">
-            <div className="DonateGoal_progress__done"></div>
-            <div className="DonateGoal_progress__text">฿30 (30%)</div>
+        <div className="DonateGoal_style__goal" data-overlay-desc="กรอบด้านนอกสุด">
+          <div className="DonateGoal_style__name" data-overlay-desc="กรอบหัวข้อ">Tip box</div>
+          <div className="DonateGoal_progress__progress" data-overlay-desc="หลอดพื้นหลัง">
+            <div className="DonateGoal_progress__done" data-overlay-desc="หลอดความคืบหน้า"></div>
+            <div className="DonateGoal_progress__text" data-overlay-desc="ข้อความจำนวนเงินและเปอร์เซ็น">฿30 (30%)</div>
           </div>
-          <div className="DonateGoal_style__legend">
-            <div className="DonateGoal_style__start">฿0</div>
-            <div className="DonateGoal_style__deadline"><time>4 สัปดาห์</time></div>
-            <div className="DonateGoal_style__end">฿100</div>
+          <div className="DonateGoal_style__legend" data-overlay-desc="กรอบข้อความด้านล่าง คลุมทั้งหมด">
+            <div className="DonateGoal_style__start" data-overlay-desc="กรอบจำนวนเงินเริ่มต้น">฿0</div>
+            <div className="DonateGoal_style__deadline" data-overlay-desc="กรอบระยะเวลา"><time>4 สัปดาห์</time></div>
+            <div className="DonateGoal_style__end" data-overlay-desc="กรอบจำนวนเงินเป้าหมาย">฿100</div>
           </div>
         </div>
 
