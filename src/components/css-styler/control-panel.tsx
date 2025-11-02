@@ -3,10 +3,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, Undo } from 'lucide-react';
+import { Copy, Undo, History } from 'lucide-react';
 import { DonationControls } from './donation-controls';
 import { AdvancedEditor } from './advanced-editor';
+import { RevisionHistory } from './revision-history';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { CSSRevision } from './revision-control-types';
+import { createSnapshot } from './revision-storage';
 
 export interface DonationStyles {
   barBackground: string;
@@ -64,6 +67,7 @@ export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMo
   const [internalMode, setInternalMode] = useState<'basic' | 'advanced'>(initialMode);
   const mode = externalMode || internalMode;
   const [copied, setCopied] = useState(false);
+  const [showRevisions, setShowRevisions] = useState(false);
 
   const generateCSS = useCallback(() => {
     let cssText: string = `.DonateGoal_progress__text {
@@ -132,10 +136,36 @@ if (styles.fixOverflow) {
     }
   };
 
+  const handleCreateSnapshot = (name?: string) => {
+    createSnapshot(cssText, styles, name);
+  };
+
+  const handleRestoreRevision = (revision: CSSRevision) => {
+    setCssText(revision.cssText);
+    if (revision.styles) {
+      setStyles(revision.styles);
+    }
+    localStorage.setItem('donationCssText', revision.cssText);
+    if (revision.styles) {
+      localStorage.setItem('donationStyles', JSON.stringify(revision.styles));
+    }
+  };
+
   return (
     <div className="h-full flex flex-col bg-card border-r">
       <div className="p-4 border-b">
-        <h2 className="text-lg md:text-xl font-semibold mb-4 break-words">Kawaii Tipbox</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg md:text-xl font-semibold break-words">Kawaii Tipbox</h2>
+          <Button
+            onClick={() => setShowRevisions(!showRevisions)}
+            variant={showRevisions ? "default" : "outline"}
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <History className="w-4 h-4" />
+            Revisions
+          </Button>
+        </div>
 
         <Tabs className='mb-4' value={mode} onValueChange={(value) => {
           const newMode = value as 'basic' | 'advanced';
@@ -159,19 +189,30 @@ if (styles.fixOverflow) {
           </AlertDescription>
         </Alert>
       </div>
-      
+
       <div className="flex-1 overflow-hidden">
-        <Tabs value={mode} className="h-full">
-          <TabsContent value="basic" className="h-full m-0">
-            <DonationControls styles={styles} setStyles={setStyles} />
-          </TabsContent>
-          <TabsContent value="advanced" className="h-full m-0">
-            <AdvancedEditor
-              css={cssText}
-              onChange={handleAdvancedCSSChange}
+        {showRevisions ? (
+          <div className="h-full">
+            <RevisionHistory
+              cssText={cssText}
+              styles={styles}
+              onCreateSnapshot={handleCreateSnapshot}
+              onRestoreRevision={handleRestoreRevision}
             />
-          </TabsContent>
-        </Tabs>
+          </div>
+        ) : (
+          <Tabs value={mode} className="h-full">
+            <TabsContent value="basic" className="h-full m-0">
+              <DonationControls styles={styles} setStyles={setStyles} />
+            </TabsContent>
+            <TabsContent value="advanced" className="h-full m-0">
+              <AdvancedEditor
+                css={cssText}
+                onChange={handleAdvancedCSSChange}
+              />
+            </TabsContent>
+          </Tabs>
+        )}
       </div>
 
       <div className="p-4 border-t flex gap-2">
