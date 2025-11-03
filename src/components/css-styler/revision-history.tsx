@@ -32,8 +32,7 @@ import {
   Clock
 } from 'lucide-react';
 import { CSSRevision } from './revision-control-types';
-import { getRevisions, updateRevisionName, deleteRevision } from './revision-storage';
-import { toast } from 'sonner';
+import { getRevisions, updateRevisionName, deleteRevision, clearAllRevisions } from './revision-storage';
 
 interface RevisionHistoryProps {
   onRestoreRevision: (revision: CSSRevision) => void;
@@ -52,8 +51,11 @@ export const RevisionHistory = ({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
   const [confirmRestoreId, setConfirmRestoreId] = useState<string | null>(null);
+  const [confirmClearAll, setConfirmClearAll] = useState(false);
   const [isCreatingSnapshot, setIsCreatingSnapshot] = useState(false);
   const [snapshotName, setSnapshotName] = useState('');
+
+  const MAX_REVISIONS_TEXT = process.env.NEXT_PUBLIC_MAX_REVISIONS || '∞';
 
   // Load revisions from localStorage
   useEffect(() => {
@@ -65,10 +67,8 @@ export const RevisionHistory = ({
       onCreateSnapshot(snapshotName.trim());
       setSnapshotName('');
       setIsCreatingSnapshot(false);
-      toast.success('Snapshot created successfully');
     } else {
       onCreateSnapshot();
-      toast.success('Snapshot created successfully');
     }
 
     // Refresh the revisions list
@@ -85,7 +85,6 @@ export const RevisionHistory = ({
     const revision = revisions.find(r => r.id === confirmRestoreId);
     if (revision) {
       onRestoreRevision(revision);
-      toast.success(`Restored to: ${revision.name}`);
     }
     setConfirmRestoreId(null);
   };
@@ -101,14 +100,18 @@ export const RevisionHistory = ({
       setRevisions(getRevisions());
       setEditingId(null);
       setEditingName('');
-      toast.success('Revision name updated');
     }
   };
 
   const handleDeleteRevision = (revisionId: string) => {
     deleteRevision(revisionId);
     setRevisions(getRevisions());
-    toast.success('Revision deleted');
+  };
+
+  const handleClearAllRevisions = () => {
+    clearAllRevisions();
+    setRevisions([]);
+    setConfirmClearAll(false);
   };
 
   const formatDate = (date: Date) => {
@@ -126,15 +129,28 @@ export const RevisionHistory = ({
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg flex items-center gap-2">
             <History className="w-5 h-5" />
-            CSS Revisions
+            ประวัติการเปลี่ยนแปลง
           </CardTitle>
-          <Badge variant="secondary" className="text-xs">
-            {revisions.length}/10
-          </Badge>
+          <div className="flex items-center gap-2">
+            {revisions.length > 0 && (
+              <Button
+                onClick={() => setConfirmClearAll(true)}
+                size="sm"
+                variant="outline"
+                className="h-7 px-2 text-xs"
+              >
+                <Trash2 className="w-3 h-3 mr-1" />
+                ล้างทั้งหมด
+              </Button>
+            )}
+            <Badge variant="secondary" className="text-xs">
+              {revisions.length}/{MAX_REVISIONS_TEXT}
+            </Badge>
+          </div>
         </div>
       </CardHeader>
 
-      <CardContent className="flex-1 p-0 pt-0">
+      <CardContent className="flex-1 p-0 pt-0 overflow-scroll">
         <div className="px-4 pb-3">
           {!isCreatingSnapshot ? (
             <Button
@@ -143,18 +159,16 @@ export const RevisionHistory = ({
               size="sm"
             >
               <Camera className="w-4 h-4 mr-2" />
-              Create Snapshot
+              บันทึกการเปลี่ยนแปลงปัจจุบัน
             </Button>
           ) : (
             <div className="space-y-2">
               <Input
-                placeholder="Snapshot name (optional)"
+                placeholder="ชื่อ (ไม่จำเป็นต้องใส่)"
                 value={snapshotName}
                 onChange={(e) => setSnapshotName(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleCreateSnapshot();
-                  } else if (e.key === 'Escape') {
+                  if (e.key === 'Escape') {
                     setIsCreatingSnapshot(false);
                     setSnapshotName('');
                   }
@@ -163,7 +177,7 @@ export const RevisionHistory = ({
               />
               <div className="flex gap-2">
                 <Button onClick={handleCreateSnapshot} size="sm" className="flex-1">
-                  Save
+                  บันทึก
                 </Button>
                 <Button
                   onClick={() => {
@@ -173,19 +187,18 @@ export const RevisionHistory = ({
                   variant="outline"
                   size="sm"
                 >
-                  Cancel
+                  ยกเลิก
                 </Button>
               </div>
             </div>
           )}
         </div>
 
-        <ScrollArea className="h-[calc(100%-120px)] px-4">
+        <ScrollArea className="flex-1 px-4">
           {revisions.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <History className="w-12 h-12 mx-auto mb-2 opacity-50" />
-              <p>No snapshots yet</p>
-              <p className="text-sm">Create your first snapshot to save the current CSS state</p>
+              <p>ยังไม่มีประวัติที่บันทึกไว้</p>
             </div>
           ) : (
             <div className="space-y-2 pb-4">
@@ -242,14 +255,14 @@ export const RevisionHistory = ({
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => handleEditName(revision)}>
                             <Edit3 className="w-4 h-4 mr-2" />
-                            Rename
+                            เปลี่ยนชื่อ
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleDeleteRevision(revision.id)}
                             className="text-destructive"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
+                            ลบ
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -265,10 +278,9 @@ export const RevisionHistory = ({
       <AlertDialog open={!!confirmRestoreId} onOpenChange={() => setConfirmRestoreId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Restore Revision?</AlertDialogTitle>
+            <AlertDialogTitle>ยืนยันการคืนค่า</AlertDialogTitle>
             <AlertDialogDescription>
-              This will replace your current CSS with the selected snapshot.
-              Any unsaved changes will be lost.
+              การดำเนินการนี้จะทำให้ CSS ปัจจุบันของคุณ ถูกแทนที่ ด้วย Snapshot ที่คุณเลือก
               <br /><br />
               <strong>
                 {revisions.find(r => r.id === confirmRestoreId)?.name}
@@ -276,8 +288,25 @@ export const RevisionHistory = ({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmRestore}>Restore</AlertDialogAction>
+            <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmRestore}>ดำเนินการต่อ</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={confirmClearAll} onOpenChange={setConfirmClearAll}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>ยืนยันการล้างประวัติทั้งหมด</AlertDialogTitle>
+            <AlertDialogDescription>
+              การดำเนินการนี้จะลบประวัติการเปลี่ยนแปลงทั้งหมด ({revisions.length} รายการ) และไม่สามารถกู้คืนได้
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+            <AlertDialogAction onClick={handleClearAllRevisions} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              ล้างทั้งหมด
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

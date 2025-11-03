@@ -1,7 +1,7 @@
 import { CSSRevision, RevisionControlState } from './revision-control-types';
 
 const REVISION_STORAGE_KEY = 'css-revisions';
-const MAX_REVISIONS = 10;
+const MAX_REVISIONS = process.env.NEXT_PUBLIC_MAX_REVISIONS ? parseInt(process.env.NEXT_PUBLIC_MAX_REVISIONS) : 0;
 
 // Get all revisions from localStorage
 export const getRevisions = (): CSSRevision[] => {
@@ -60,7 +60,7 @@ export const createSnapshot = (
   const updatedRevisions = [newRevision, ...revisions];
 
   // Keep only the latest MAX_REVISIONS
-  if (updatedRevisions.length > MAX_REVISIONS) {
+  if (updatedRevisions.length > MAX_REVISIONS && MAX_REVISIONS != 0) {
     updatedRevisions.splice(MAX_REVISIONS);
   }
 
