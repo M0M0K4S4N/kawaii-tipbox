@@ -27,6 +27,9 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string>('');
 
+  // Check if AI is enabled
+  const isAiEnabled = process.env.NEXT_PUBLIC_AI_ENABLED !== 'false';
+
   // Generate session ID on component mount
   useEffect(() => {
     const generateSessionId = () => {
@@ -146,39 +149,41 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
         </div>
       </div>
 
-      <div className="p-3 border-b bg-muted/30">
-        <div className="flex items-center space-x-2">
-          <div className="flex-1 relative">
-            <Input
-              value={aiPrompt}
-              onChange={(e) => setAiPrompt(e.target.value)}
-              onKeyDown={handleAiKeyPress}
-              placeholder="ให้ AI ช่วย (เช่น 'เปลี่ยนสีเป็นธีมสีฟ้า', 'ช่วยทำให้ขอบมน')"
-              disabled={isAiLoading}
-              className="pr-10"
-            />
+      {isAiEnabled && (
+        <div className="p-3 border-b bg-muted/30">
+          <div className="flex items-center space-x-2">
+            <div className="flex-1 relative">
+              <Input
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                onKeyDown={handleAiKeyPress}
+                placeholder="ให้ AI ช่วย (เช่น 'เปลี่ยนสีเป็นธีมสีฟ้า', 'ช่วยทำให้ขอบมน')"
+                disabled={isAiLoading}
+                className="pr-10"
+              />
+            </div>
+            <Button
+              onClick={handleAiEdit}
+              disabled={isAiLoading || !aiPrompt.trim()}
+              size="sm"
+              className="whitespace-nowrap"
+            >
+              {isAiLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Casting a spell...
+                </>
+              ) : (
+                <>
+                  <Wand2 className="mr-2 h-4 w-4" />
+                  Magic
+                </>
+              )}
+            </Button>
           </div>
-          <Button
-            onClick={handleAiEdit}
-            disabled={isAiLoading || !aiPrompt.trim()}
-            size="sm"
-            className="whitespace-nowrap"
-          >
-            {isAiLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Casting a spell...
-              </>
-            ) : (
-              <>
-                <Wand2 className="mr-2 h-4 w-4" />
-                Magic
-              </>
-            )}
-          </Button>
         </div>
-      </div>
-      
+      )}
+
       <div className="flex-1">
         <Editor
           height="100%"

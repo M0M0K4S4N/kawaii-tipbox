@@ -4,6 +4,16 @@ import { randomUUID } from 'crypto';
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if AI is enabled
+    const isAiEnabled = process.env.NEXT_PUBLIC_AI_ENABLED !== 'false';
+
+    if (!isAiEnabled) {
+      return NextResponse.json(
+        { error: 'AI features are disabled' },
+        { status: 403 }
+      );
+    }
+
     const { prompt, currentCss, sessionId } = await request.json();
 
     if (!prompt) {
@@ -167,10 +177,6 @@ export async function POST(request: NextRequest) {
 ${currentCss}
 \`\`\`
 
-## User request
-${prompt}
-
-## Modified Custom CSS
 `;
 
     const completion = await openai.chat.completions.create({
