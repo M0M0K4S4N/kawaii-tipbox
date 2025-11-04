@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import OpenAI from 'openai';
 import { randomUUID } from 'crypto';
 
 export async function POST(request: NextRequest) {
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.OPENROUTER_API_KEY;
 
     if (!apiKey) {
       return NextResponse.json(
@@ -42,15 +41,17 @@ export async function POST(request: NextRequest) {
     // Generate or use existing session ID
     const currentSessionId = sessionId || randomUUID();
 
-    // Initialize OpenAI client
-    const openai = new OpenAI({
-      apiKey: apiKey,
-      baseURL: process.env.OPENAI_API_BASE,
-      defaultHeaders: {
-        'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-        'X-Title': 'Kawaii Tipbox - Tipme donation box CSS Editor',
-      },
-    });
+    // Prepare headers for the HTTP request
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    };
+
+    // Add custom headers if they exist
+    if (process.env.NEXT_PUBLIC_SITE_URL) {
+      headers['HTTP-Referer'] = process.env.NEXT_PUBLIC_SITE_URL;
+    }
+    headers['X-Title'] = 'Kawaii Tipbox - Tipme donation box CSS Editor';
 
     const systemPrompt = `You are a CSS expert assistant and you have a wise artist brain so you can design a stunning CSS.
 Your task is to modify CSS based on user instructions.
@@ -185,23 +186,40 @@ ${currentCss}
 
 `;
 
-    const completion = await openai.chat.completions.create({
-      model: process.env.OPENAI_MODEL || "qwen/qwen-2.5-coder-32b-instruct:free",
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt,
+    // Determine the API base URL
+    const apiBase = process.env.OPENROUTER_API_BASE || 'https://api.openai.com/v1';
+    const model = process.env.OPENROUTER_MODEL || "qwen/qwen-2.5-coder-32b-instruct:free";
+
+    // Make the HTTP request to OpenAI API
+    const response = await fetch(`${apiBase}/chat/completions`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        model,
+        messages: [
+          {
+            role: 'system',
+            content: systemPrompt,
+          },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        user: currentSessionId,
+        temperature: 0.3,
+        provider: {
+          order: ['google-vertex'] // FIXME: Hard coded provider
         },
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
-      user: currentSessionId,
-      temperature: 0.3,
-      max_tokens: 4000,
+      }),
     });
 
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`OpenAI API error: ${response.status} ${response.statusText} - ${errorData.error?.message || 'Unknown error'}`);
+    }
+
+    const completion = await response.json();
     const modifiedCss = completion.choices[0]?.message?.content?.trim() || currentCss;
 
     return NextResponse.json({
