@@ -86,15 +86,54 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to edit CSS with AI');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to edit CSS with AI');
       }
 
-      onChange(data.data.modifiedCss);
-      setAiPrompt('');
-      toast.success('CSS updated successfully with AI');
+      // Handle streaming response
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('No response body');
+      }
+
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let hasReceivedContent = false;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.trim() === '') continue;
+
+          try {
+            const data = JSON.parse(line);
+
+            if (data.type === 'content') {
+              // Update the editor with the streamed content
+              onChange(data.content);
+              hasReceivedContent = true;
+            } else if (data.type === 'complete') {
+              // Stream completed successfully
+              if (hasReceivedContent) {
+                toast.success('CSS updated successfully with AI');
+              }
+              setAiPrompt('');
+            } else if (data.type === 'error') {
+              throw new Error(data.error);
+            }
+          } catch (e) {
+            // Skip invalid JSON lines
+            console.error('Error parsing streaming data:', e);
+          }
+        }
+      }
     } catch (error) {
       console.error('AI CSS Edit Error:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to edit CSS with AI');

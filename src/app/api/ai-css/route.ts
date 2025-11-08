@@ -190,46 +190,110 @@ ${currentCss}
     const apiBase = process.env.OPENROUTER_API_BASE || 'https://api.openai.com/v1';
     const model = process.env.OPENROUTER_MODEL || "qwen/qwen-2.5-coder-32b-instruct:free";
 
-    // Make the HTTP request to OpenAI API
-    const response = await fetch(`${apiBase}/chat/completions`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        model,
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt,
-          },
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-        user: currentSessionId,
-        temperature: 0.3,
-        provider: {
-          order: ['google-vertex'] // FIXME: Hard coded provider
-        },
-      }),
+    // Create a streaming response
+    const encoder = new TextEncoder();
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          // Make the HTTP request to OpenAI API with streaming
+          const response = await fetch(`${apiBase}/chat/completions`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+              model,
+              messages: [
+                {
+                  role: 'system',
+                  content: systemPrompt,
+                },
+                {
+                  role: 'user',
+                  content: prompt,
+                },
+              ],
+              user: currentSessionId,
+              temperature: 0.3,
+              stream: true, // Enable streaming
+              provider: {
+                order: ['google-vertex'] // FIXME: Hard coded provider
+              },
+            }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`OpenAI API error: ${response.status} ${response.statusText} - ${errorData.error?.message || 'Unknown error'}`);
+          }
+
+          // Process the streaming response
+          const reader = response.body?.getReader();
+          if (!reader) {
+            throw new Error('No response body');
+          }
+
+          const decoder = new TextDecoder();
+          let buffer = '';
+          let accumulatedContent = '';
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+
+            for (const line of lines) {
+              if (line.trim() === '') continue;
+              if (line.startsWith('data: ')) {
+                const data = line.slice(6);
+                if (data === '[DONE]') {
+                  // Send final chunk with session info
+                  controller.enqueue(encoder.encode(JSON.stringify({
+                    type: 'complete',
+                    sessionId: currentSessionId,
+                  }) + '\n'));
+                  return;
+                }
+
+                try {
+                  const parsed = JSON.parse(data);
+                  const content = parsed.choices?.[0]?.delta?.content;
+                  if (content) {
+                    accumulatedContent += content;
+
+                    // Send the accumulated content as a chunk
+                    controller.enqueue(encoder.encode(JSON.stringify({
+                      type: 'content',
+                      content: accumulatedContent,
+                    }) + '\n'));
+                  }
+                } catch (e) {
+                  // Skip invalid JSON
+                  console.error('Error parsing streaming data:', e);
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Streaming error:', error);
+          controller.enqueue(encoder.encode(JSON.stringify({
+            type: 'error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+          }) + '\n'));
+        } finally {
+          controller.close();
+        }
+      },
     });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`OpenAI API error: ${response.status} ${response.statusText} - ${errorData.error?.message || 'Unknown error'}`);
-    }
-
-    const completion = await response.json();
-    const modifiedCss = completion.choices[0]?.message?.content?.trim() || currentCss;
-
-    return NextResponse.json({
-      success: true,
-      data: {
-        originalCss: currentCss,
-        modifiedCss: modifiedCss,
-        prompt: prompt,
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
       },
-      sessionId: currentSessionId,
     });
   } catch (error) {
     console.error('AI CSS Editor API error:', error);
