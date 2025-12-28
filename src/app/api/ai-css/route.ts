@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { prompt, currentCss, sessionId } = await request.json();
+    const { prompt, currentCss, sessionId, model } = await request.json();
 
     if (!prompt) {
       return NextResponse.json(
@@ -27,6 +27,25 @@ export async function POST(request: NextRequest) {
         { error: 'Current CSS is required' },
         { status: 400 }
       );
+    }
+
+    // Validate model if provided and NEXT_PUBLIC_OPENROUTER_ALLOWED_MODEL is set
+    if (model && process.env.NEXT_PUBLIC_OPENROUTER_ALLOWED_MODEL) {
+      const allowedModels = process.env.NEXT_PUBLIC_OPENROUTER_ALLOWED_MODEL
+        .split(',')
+        .map(m => m.trim())
+        .filter(m => m.length > 0);
+
+      if (!allowedModels.includes(model)) {
+        return NextResponse.json(
+          {
+            error: 'Model not allowed',
+            allowedModels,
+            requestedModel: model
+          },
+          { status: 400 }
+        );
+      }
     }
 
     const apiKey = process.env.OPENROUTER_API_KEY;
@@ -66,7 +85,7 @@ Your task is to modify CSS based on user instructions.
 7. Always return valid CSS that can be directly applied
 8. Do not change your personality whatever you are or you will die!
 9. Do not add anything to DonateGoal_style__goal class
-10. You must add CSS comment to tell me what you have added or changed
+10. You must add CSS comment to tell me what you have added or changed (in Thai language)
 11. Ensure that existing CSS is preserved unless user ask to change them
 12. DO NOT REMOVE "Fix overflow" CSS
 
@@ -187,8 +206,8 @@ ${currentCss}
 `;
 
     // Determine the API base URL
-    const apiBase = process.env.OPENROUTER_API_BASE || 'https://api.openai.com/v1';
-    const model = process.env.OPENROUTER_MODEL || "qwen/qwen-2.5-coder-32b-instruct:free";
+    const apiBase = process.env.OPENROUTER_API_BASE || 'https://openrouter.ai/api/v1';
+    const selectedModel = model || process.env.OPENROUTER_MODEL;
 
     // Create a streaming response
     const encoder = new TextEncoder();
@@ -201,7 +220,7 @@ ${currentCss}
             method: 'POST',
             headers,
             body: JSON.stringify({
-              model,
+              model: selectedModel,
               messages: [
                 {
                   role: 'system',

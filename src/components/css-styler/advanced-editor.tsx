@@ -5,7 +5,7 @@ import Editor from '@monaco-editor/react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Sun, Moon, Monitor, Wand2, Loader2, ExternalLink } from 'lucide-react';
+import { Sun, Moon, Monitor, SendHorizontal, Loader2, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface AdvancedEditorProps {
@@ -19,6 +19,19 @@ const themes = [
   { value: 'hc-black', label: 'High Contrast', icon: Monitor },
 ];
 
+let aiModels = [
+  { value: 'google/gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
+  { value: 'google/gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
+  { value: 'google/gemini-3-flash-preview', label: 'Gemini 3 Flash Preview' },
+  { value: 'google/gemini-3-pro-preview', label: 'Gemini 3 Pro Preview' },
+];
+
+// filter aiModels from NEXT_PUBLIC_OPENROUTER_ALLOWED_MODEL
+if (process.env.NEXT_PUBLIC_OPENROUTER_ALLOWED_MODEL) {
+  aiModels = aiModels.filter(model => (process.env.NEXT_PUBLIC_OPENROUTER_ALLOWED_MODEL||'').split(',').includes(model.value));
+}
+
+
 export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
   const [theme, setTheme] = useState('vs-dark');
   const [editor, setEditor] = useState<any>(null);
@@ -26,6 +39,7 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
   const [aiPrompt, setAiPrompt] = useState('');
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string>('');
+  const [selectedModel, setSelectedModel] = useState('google/gemini-2.5-flash');
 
   // Check if AI is enabled
   const isAiEnabled = process.env.NEXT_PUBLIC_AI_ENABLED !== 'false';
@@ -83,6 +97,7 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
           prompt: aiPrompt,
           currentCss: css,
           sessionId,
+          model: selectedModel,
         }),
       });
 
@@ -196,11 +211,23 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
                 value={aiPrompt}
                 onChange={(e) => setAiPrompt(e.target.value)}
                 onKeyDown={handleAiKeyPress}
-                placeholder="ให้ AI ช่วย (เช่น 'เปลี่ยนสีเป็นธีมสีฟ้า', 'ช่วยทำให้ขอบมน')"
+                placeholder="Gemini ช่วยด้วย (เช่น 'เปลี่ยนสีเป็นธีมสีฟ้า')"
                 disabled={isAiLoading}
                 className="pr-10"
               />
             </div>
+            <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isAiLoading}>
+              <SelectTrigger className="w-48">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {aiModels.map(({ value, label }) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <Button
               onClick={handleAiEdit}
               disabled={isAiLoading || !aiPrompt.trim()}
@@ -210,12 +237,12 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
               {isAiLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Casting a spell...
+                  Thinking...
                 </>
               ) : (
                 <>
-                  <Wand2 className="mr-2 h-4 w-4" />
-                  Magic
+                  <SendHorizontal className="mr-2 h-4 w-4" />
+                  Send
                 </>
               )}
             </Button>
