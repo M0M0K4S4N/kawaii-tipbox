@@ -204,7 +204,7 @@ export const templates: Template[] = [
   {
     id: 'halloween',
     name: 'Halloween',
-    featured: true,
+    featured: false,
     background: 'radial-gradient(circle, #ff8c00, #ff4500)',
     css: `.DonateGoal_progress__text {
   color: #8b4513;
@@ -232,6 +232,69 @@ export const templates: Template[] = [
   border-right: 2px solid #8b4513;
   border-radius: 20px;
   height: 100% !important;
+}
+
+/* Fix overflow */
+.DonateGoal_style__goal {
+  width: 98%;
+  margin: auto;
+}`
+  },
+  {
+    id: 'tenshi',
+    name: 'Tenshi',
+    featured: false,
+    background: 'radial-gradient(circle, #ffffff, #b0e0e6)',
+    css: `.DonateGoal_progress__text {
+  color: #ffffff;
+  font-weight: normal;
+  text-shadow: 0 0 8px #a0e9ff, 0 0 12px #ffffff;
+  letter-spacing: 1px;
+}
+
+.DonateGoal_style__goal {
+  color: #ffffff;
+  filter: drop-shadow(0 0 5px rgba(173, 216, 230, 0.5));
+}
+
+.DonateGoal_progress__progress {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  border: 2px solid #b0e0e6;
+  box-shadow: 0 0 15px rgba(176, 224, 230, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.5);
+  overflow: visible;
+}
+
+.DonateGoal_progress__done {
+  background: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%);
+  border-right: unset;
+  border-radius: 20px 0 0 20px;
+  height: 100% !important;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.DonateGoal_style__name {
+  font-size: 18pt;
+  font-weight: normal;
+  color: #ffffff;
+  text-shadow: 0 0 10px #87ceeb, 0 0 20px #87ceeb;
+}
+
+.DonateGoal_style__name::before {
+  content: "† ";
+  color: #b0e0e6;
+}
+
+.DonateGoal_style__name::after {
+  content: " †";
+  color: #b0e0e6;
+}
+
+.DonateGoal_style__legend {
+  font-size: 12pt;
+  margin-top: 8px;
+  color: #e0f7ff;
+  text-shadow: 0 0 5px #4682b4;
 }
 
 /* Fix overflow */
