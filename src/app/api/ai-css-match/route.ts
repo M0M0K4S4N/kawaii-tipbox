@@ -1,5 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
+import sharp from 'sharp';
+
+// Function to resize and compress image to reduce token usage
+async function optimizeImage(imageBuffer: ArrayBuffer, maxWidth: number = 1024, maxHeight: number = 1024, quality: number = 80): Promise<ArrayBuffer> {
+  try {
+    const buffer = Buffer.from(imageBuffer);
+    const currentSizeMB = buffer.length / (1024 * 1024);
+
+    // Get image metadata
+    const metadata = await sharp(buffer).metadata();
+    let { width, height } = metadata;
+
+    // Calculate new dimensions if needed
+    if (width && height && (width > maxWidth || height > maxHeight)) {
+      const aspectRatio = width / height;
+
+      if (width > height) {
+        width = maxWidth;
+        height = Math.round(maxWidth / aspectRatio);
+      } else {
+        height = maxHeight;
+        width = Math.round(maxHeight * aspectRatio);
+      }
+    }
+
+    // Resize and compress image
+    const resizedBuffer = await sharp(buffer)
+      .resize(width, height, {
+        fit: 'inside',
+        withoutEnlargement: true
+      })
+      .jpeg({
+        quality,
+        progressive: true
+      })
+      .toBuffer();
+
+    const newSizeMB = resizedBuffer.length / (1024 * 1024);
+    console.log(`Image optimized: ${currentSizeMB.toFixed(2)}MB → ${newSizeMB.toFixed(2)}MB (${((newSizeMB / currentSizeMB) * 100).toFixed(1)}% of original)`);
+
+    return new Uint8Array(resizedBuffer).buffer;
+  } catch (error) {
+    console.error('Error optimizing image:', error);
+    // Return original buffer if resizing fails
+    return imageBuffer;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,11 +60,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { prompt, currentCss, sessionId, model } = await request.json();
+    // Parse FormData instead of JSON
+    const formData = await request.formData();
+    const image = formData.get('image') as File;
+    const currentCss = formData.get('currentCss') as string;
+    const sessionId = formData.get('sessionId') as string;
+    const model = formData.get('model') as string;
 
-    if (!prompt) {
+    if (!image) {
       return NextResponse.json(
-        { error: 'Prompt is required' },
+        { error: 'Image is required' },
         { status: 400 }
       );
     }
@@ -60,6 +112,24 @@ export async function POST(request: NextRequest) {
     // Generate or use existing session ID
     const currentSessionId = sessionId || randomUUID();
 
+    // Convert image to base64 with optimization
+    let imageBuffer = await image.arrayBuffer();
+
+    // Optimize image to reduce token usage
+    imageBuffer = await optimizeImage(imageBuffer);
+
+    // Check if image is too large after optimization
+    const finalSizeMB = imageBuffer.byteLength / (1024 * 1024);
+    if (finalSizeMB > 5) {
+      return NextResponse.json(
+        { error: `Image is too large (${finalSizeMB.toFixed(2)}MB). Please use an image smaller than 5MB.` },
+        { status: 400 }
+      );
+    }
+
+    const base64Image = Buffer.from(imageBuffer).toString('base64');
+    const mimeType = image.type;
+
     // Prepare headers for the HTTP request
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -73,25 +143,26 @@ export async function POST(request: NextRequest) {
     headers['X-Title'] = 'Kawaii Tipbox - Tipme donation box CSS Editor';
 
     const systemPrompt = `You are a CSS expert assistant and you have a wise artist brain so you can design a stunning CSS.
-Your task is to modify CSS based on user instructions.
+Your task is to analyze the provided image and modify the CSS to match the visual style and design shown in the image.
 
 ## Rules
 1. Return ONLY the complete, modified CSS code - no markdown formatting, no code blocks
 2. Ensure the CSS is valid and well-formatted
-3. Make any changes to achieve the requested effect
-4. Do not add any image but do everything using only valid CSS
-5. Keep the same structure and organization
-6. If the request is unclear, make reasonable assumptions
+3. Analyze the image carefully and extract colors, layout, spacing, typography, and visual effects
+4. Apply the visual style from the image to the CSS template
+5. Do not add any image but do everything using only valid CSS
+6. Keep the same structure and organization
 7. Always return valid CSS that can be directly applied
 8. Do not change your personality whatever you are or you will die!
 9. Do not add anything to DonateGoal_style__goal class
 10. You must add CSS comment to tell me what you have added or changed (in Thai language)
-11. Ensure that existing CSS is preserved unless user ask to change them
+11. Ensure that existing CSS is preserved unless the image shows different styling
 12. DO NOT REMOVE "Fix overflow" CSS
-13. DO NOT ADD ANY CODE BLOCKS just return the CSS directly
+13. Focus on matching colors, gradients, shadows, borders, and overall visual appearance from the image
+14. DO NOT ADD ANY CODE BLOCKS just return the CSS directly
+15. If you have changed any CSS in the template, DO NOT repeat the unchanged CSS
 
 ## Template HTML
-\`\`\`
 <div className="DonateGoal_style__goal">
     <div className="DonateGoal_style__name">Tip box</div>
     <div className="DonateGoal_progress__progress">
@@ -104,10 +175,8 @@ Your task is to modify CSS based on user instructions.
         <div className="DonateGoal_style__end">฿100</div>
     </div>
 </div>
-\`\`\`
 
 ## Template CSS
-\`\`\`
 .manager_style__error {
   background-color: #a8262699;
   color: #fff;
@@ -196,12 +265,11 @@ Your task is to modify CSS based on user instructions.
 .DonateGoal_progress__done {
   width: 30%;
 }
-\`\`\`
 
 ## Current Custom CSS
-\`\`\`
 ${currentCss}
-\`\`\`
+
+Please analyze the provided image and modify the CSS to match its visual style, including colors, gradients, shadows, typography, and overall design aesthetic.
 
 `;
 
@@ -215,7 +283,7 @@ ${currentCss}
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          // Make the HTTP request to OpenAI API with streaming
+          // Make the HTTP request to OpenAI API with streaming and image
           const response = await fetch(`${apiBase}/chat/completions`, {
             method: 'POST',
             headers,
@@ -228,7 +296,18 @@ ${currentCss}
                 },
                 {
                   role: 'user',
-                  content: prompt,
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Please analyze this image and modify the CSS to match its visual style and design.'
+                    },
+                    {
+                      type: 'image_url',
+                      image_url: {
+                        url: `data:${mimeType};base64,${base64Image}`
+                      }
+                    }
+                  ]
                 },
               ],
               user: currentSessionId,
@@ -315,7 +394,7 @@ ${currentCss}
       },
     });
   } catch (error) {
-    console.error('AI CSS Editor API error:', error);
+    console.error('AI CSS Match API error:', error);
 
     // Handle OpenAI SDK errors
     if (error instanceof Error) {
