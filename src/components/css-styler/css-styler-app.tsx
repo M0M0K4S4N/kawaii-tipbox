@@ -79,7 +79,7 @@ export const CSSStylerApp = ({ template: templateConfig }: { template?: PreviewT
         <div className="h-px bg-border" />
         <div className="flex-1 overflow-hidden">
           {!mode && loadingText}
-          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} isDarkMode={isDarkMode} onToggleDarkMode={() => setIsDarkMode(!isDarkMode)} template={template} />}
+          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} isDarkMode={isDarkMode} onToggleDarkMode={() => setIsDarkMode(!isDarkMode)} template={template} templateId={template.id} />}
         </div>
       </div>
     );
@@ -95,7 +95,7 @@ export const CSSStylerApp = ({ template: templateConfig }: { template?: PreviewT
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={60} minSize={40}>
           {!mode && loadingText}
-          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} isDarkMode={isDarkMode} onToggleDarkMode={() => setIsDarkMode(!isDarkMode)} template={template} />}
+          {mode && <PreviewPane cssText={cssText} onTemplateSelect={handleTemplateSelect} isDarkMode={isDarkMode} onToggleDarkMode={() => setIsDarkMode(!isDarkMode)} template={template} templateId={template.id} />}
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

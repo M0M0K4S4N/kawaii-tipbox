@@ -2,12 +2,18 @@
 
 import React, { useState } from 'react';
 import { TemplateSelector, Template } from './template-selector';
-import { templates } from './template-data';
+import { templates as tipmeTemplate } from './template-data-tipme';
+import { templates as easydonateTemplate } from './template-data-easydonate';
 import { CSSClassOverlay } from './css-class-overlay';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Sun, Moon } from 'lucide-react';
 import { PreviewTemplate } from '@/lib/preview-templates';
+
+const templateCollectionMap: Record<string, Template[]> = {
+  tipme: tipmeTemplate,
+  easydonate: easydonateTemplate,
+}
 
 export const PreviewPane = ({
   cssText,
@@ -21,8 +27,11 @@ export const PreviewPane = ({
   isDarkMode?: boolean;
   onToggleDarkMode?: () => void;
   template: PreviewTemplate;
+  templateId: string;
 }) => {
   const [isCSSClassOverlayEnabled, setIsCSSClassOverlayEnabled] = React.useState(false);
+
+  const templates = templateCollectionMap[template.id] || tipmeTemplate;
 
   return (
     <div className={`h-full overflow-auto p-8 relative`} style={{ backgroundColor: isDarkMode ? '#333' : '#fff' }}>
@@ -54,11 +63,11 @@ export const PreviewPane = ({
           ${template.baseCss || ''}
         `}</style>
 
-        <style>{`
+        <style>{`#preview-container {
           ${cssText}
-        `}</style>
+        }`}</style>
 
-        <div dangerouslySetInnerHTML={{ __html: template.html }} />
+        <div id="preview-container" dangerouslySetInnerHTML={{ __html: template.html }} />
 
         {onTemplateSelect && (
           <TemplateSelector
