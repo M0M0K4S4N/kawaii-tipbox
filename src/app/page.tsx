@@ -1,11 +1,5 @@
-import { CSSStylerApp } from "@/components/css-styler/css-styler-app";
-import { HeartButton } from "@/components/ui/heart-button";
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <div className="h-screen bg-background">
-      <CSSStylerApp />
-      <HeartButton />
-    </div>
-  );
+  redirect('/tipme');
 }

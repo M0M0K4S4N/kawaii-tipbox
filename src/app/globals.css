@@ -2,6 +2,167 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-Thin.otf)format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-ThinItalic.otf)format("opentype");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-ExtraLight.otf)format("opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-ExtraLightItalic.otf)format("opentype");
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-Light.otf)format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-LightItalic.otf)format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-Regular.otf)format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-Italic.otf)format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-Medium.otf)format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-MediumItalic.otf)format("opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-SemiBold.otf)format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-SemiBoldItalic.otf)format("opentype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-Bold.otf)format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-BoldItalic.otf)format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-ExtraBold.otf)format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-ExtraBoldItalic.otf)format("opentype");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-Black.otf)format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%
+}
+
+@font-face {
+  font-family: FC Vision;
+  src: url(/fonts/FC-Vision/FCVision-BlackItalic.otf)format("opentype");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+  ascent-override: 80%
+}
+
 
 
 @layer base {

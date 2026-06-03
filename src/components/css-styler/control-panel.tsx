@@ -55,7 +55,7 @@ export const defaultStyles: DonationStyles = {
   fixOverflow: true,
 };
 
-export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMode, mode: externalMode, onModeChange }: {
+export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMode, mode: externalMode, onModeChange, storagePrefix = '' }: {
   styles: DonationStyles;
   setStyles: (styles: DonationStyles) => void;
   cssText: string;
@@ -63,6 +63,7 @@ export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMo
   initialMode: 'basic' | 'advanced';
   mode?: 'basic' | 'advanced';
   onModeChange?: (mode: 'basic' | 'advanced') => void;
+  storagePrefix?: string;
 }) => {
   const [internalMode, setInternalMode] = useState<'basic' | 'advanced'>(initialMode);
   const mode = externalMode || internalMode;
@@ -132,7 +133,7 @@ if (styles.fixOverflow) {
   const handleAdvancedCSSChange = (css: string) => {
     if (mode === 'advanced') {
       setCssText(css);
-      localStorage.setItem('donationCssText', css);
+      localStorage.setItem(`${storagePrefix}donationCssText`, css);
     }
   };
 
@@ -145,9 +146,9 @@ if (styles.fixOverflow) {
     if (revision.styles) {
       setStyles(revision.styles);
     }
-    localStorage.setItem('donationCssText', revision.cssText);
+    localStorage.setItem(`${storagePrefix}donationCssText`, revision.cssText);
     if (revision.styles) {
-      localStorage.setItem('donationStyles', JSON.stringify(revision.styles));
+      localStorage.setItem(`${storagePrefix}donationStyles`, JSON.stringify(revision.styles));
     }
   };
 
@@ -174,7 +175,7 @@ if (styles.fixOverflow) {
           } else {
             setInternalMode(newMode);
           }
-          localStorage.setItem('mode', value);
+          localStorage.setItem(`${storagePrefix}mode`, value);
         }}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="basic">Basic</TabsTrigger>
@@ -220,8 +221,8 @@ if (styles.fixOverflow) {
           onClick={() => {
             setStyles(defaultStyles);
             setCssText(generateCSS());
-            localStorage.setItem('donationStyles', JSON.stringify(defaultStyles));
-            localStorage.setItem('donationCssText', generateCSS());
+            localStorage.setItem(`${storagePrefix}donationStyles`, JSON.stringify(defaultStyles));
+            localStorage.setItem(`${storagePrefix}donationCssText`, generateCSS());
           }}
           className="w-[20%] min-w-[70px]"
           variant="outline"

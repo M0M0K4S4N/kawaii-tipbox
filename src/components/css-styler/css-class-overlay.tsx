@@ -34,10 +34,14 @@ const debounce = (func: Function, wait: number) => {
 
 export const CSSClassOverlay = ({
   enabled,
-  color = '#9ba9c0ff'
+  color = '#9ba9c0ff',
+  overlaySelector = '.DonateGoal_style__goal',
+  overlayContainerClass = 'DonateGoal_style__goal',
 }: {
   enabled: boolean;
   color?: string;
+  overlaySelector?: string;
+  overlayContainerClass?: string;
 }) => {
   const [elements, setElements] = useState<ElementInfo[]>([]);
   const [tagPositions, setTagPositions] = useState<TagPosition[]>([]);
@@ -47,7 +51,7 @@ export const CSSClassOverlay = ({
   // Find all elements with the target class
   const findTargetElements = () => {
     // Find elements in the document body since we can't access the preview pane's internal container
-    const targetElements = document.querySelectorAll('.DonateGoal_style__goal');
+    const targetElements = document.querySelectorAll(overlaySelector);
     const elementInfos: ElementInfo[] = [];
 
     targetElements.forEach((element) => {
@@ -184,7 +188,7 @@ export const CSSClassOverlay = ({
     <div className="fixed inset-0 pointer-events-none z-50" ref={overlayRef}>
       {/* Game-style Callout Tags */}
       {enabled && elements.map((el, index) => {
-          const isMainElement = el.classes.includes('DonateGoal_style__goal');
+          const isMainElement = el.classes.includes(overlayContainerClass);
 
           // Get tag position from state or use default
           const tagPos = tagPositions[index] || { x: 0, y: 0 };
