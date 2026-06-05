@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
 import { Copy, Undo, History } from 'lucide-react';
 import { DonationControls } from './donation-controls';
 import { AdvancedEditor } from './advanced-editor';
@@ -188,8 +189,13 @@ div.flex>div.flex>div:nth-child(2)>div>div>h1 {
   return (
     <div className="h-full flex flex-col bg-card border-r">
       <div className="p-4 border-b">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg md:text-xl font-semibold break-words">Kawaii Tipbox</h2>
+          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg md:text-xl font-semibold break-words">Kawaii Tipbox</h2>
+            <a href="/easydonate">
+              <Badge variant="secondary" className="cursor-pointer">EasyDonate</Badge>
+            </a>
+          </div>
           <Button
             onClick={() => setShowRevisions(!showRevisions)}
             variant={showRevisions ? "default" : "outline"}
