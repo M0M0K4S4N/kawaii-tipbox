@@ -1,5 +1,5 @@
 import { CSSStylerApp } from "@/components/css-styler/css-styler-app";
-import { HeartButton } from "@/components/ui/heart-button";
+import { InfoButton } from "@/components/ui/info-button";
 import { previewTemplates } from "@/lib/preview-templates";
 import fs from 'fs';
 import path from 'path';
@@ -16,7 +16,7 @@ export default function EasyDonatePage() {
   return (
     <div className="h-screen bg-background">
       <CSSStylerApp template={template} />
-      <HeartButton />
+      <InfoButton />
     </div>
   );
 }
