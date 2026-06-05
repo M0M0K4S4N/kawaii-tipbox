@@ -44,7 +44,7 @@ export const PreviewPane = ({
         <Moon className="h-4 w-4" color={isDarkMode ? '#fff' : '#000'} />
       </div>
 
-      <div className="absolute top-4 left-4 z-10 flex items-center space-x-2">
+      <div className="absolute top-4 left-4 z-10 flex items-center space-x-2 hidden">
         <Label style={{ color: isDarkMode ? '#fff' : '#000' }}>เปิดตัวช่วยดู Class</Label>
         <Switch
           checked={isCSSClassOverlayEnabled}

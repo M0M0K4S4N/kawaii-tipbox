@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 interface AdvancedEditorProps {
   css: string;
   onChange: (css: string) => void;
+  apiPath?: string;
 }
 
 const themes = [
@@ -32,7 +33,7 @@ if (process.env.NEXT_PUBLIC_OPENROUTER_ALLOWED_MODEL) {
 }
 
 
-export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
+export const AdvancedEditor = ({ css, onChange, apiPath = '/api/ai-css/tipme' }: AdvancedEditorProps) => {
   const [theme, setTheme] = useState('vs-dark');
   const [editor, setEditor] = useState<any>(null);
   const editorRef = useRef<any>(null);
@@ -88,7 +89,7 @@ export const AdvancedEditor = ({ css, onChange }: AdvancedEditorProps) => {
     setIsAiLoading(true);
 
     try {
-      const response = await fetch('/api/ai-css', {
+      const response = await fetch(apiPath, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -55,7 +55,7 @@ export const defaultStyles: DonationStyles = {
   fixOverflow: true,
 };
 
-export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMode, mode: externalMode, onModeChange, storagePrefix = '' }: {
+export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMode, mode: externalMode, onModeChange, storagePrefix = '', apiPath }: {
   styles: DonationStyles;
   setStyles: (styles: DonationStyles) => void;
   cssText: string;
@@ -64,6 +64,7 @@ export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMo
   mode?: 'basic' | 'advanced';
   onModeChange?: (mode: 'basic' | 'advanced') => void;
   storagePrefix?: string;
+  apiPath?: string;
 }) => {
   const [internalMode, setInternalMode] = useState<'basic' | 'advanced'>(initialMode);
   const mode = externalMode || internalMode;
@@ -210,6 +211,7 @@ if (styles.fixOverflow) {
               <AdvancedEditor
                 css={cssText}
                 onChange={handleAdvancedCSSChange}
+                apiPath={apiPath}
               />
             </TabsContent>
           </Tabs>

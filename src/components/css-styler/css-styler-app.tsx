@@ -12,6 +12,7 @@ import { PreviewTemplate, previewTemplates } from '@/lib/preview-templates';
 export const CSSStylerApp = ({ template: templateConfig }: { template?: PreviewTemplate }) => {
   const template = templateConfig || previewTemplates.tipme;
   const storagePrefix = `template_${template.id}_`;
+  const apiPath = `/api/ai-css/${template.id}`;
 
   const [styles, setStyles] = useState<DonationStyles>(defaultStyles);
   const [cssText, setCssText] = useState<string>("");
@@ -74,7 +75,7 @@ export const CSSStylerApp = ({ template: templateConfig }: { template?: PreviewT
       <div className="h-screen flex flex-col">
         <div className="flex-1 overflow-hidden">
           {!mode && loadingText}
-          {mode && <ControlPanel styles={styles} setStyles={setStyles} cssText={cssText} setCssText={setCssText} initialMode={mode} mode={mode} onModeChange={setMode} storagePrefix={storagePrefix} />}
+          {mode && <ControlPanel styles={styles} setStyles={setStyles} cssText={cssText} setCssText={setCssText} initialMode={mode} mode={mode} onModeChange={setMode} storagePrefix={storagePrefix} apiPath={apiPath} />}
         </div>
         <div className="h-px bg-border" />
         <div className="flex-1 overflow-hidden">
@@ -90,7 +91,7 @@ export const CSSStylerApp = ({ template: templateConfig }: { template?: PreviewT
       <ResizablePanelGroup direction="horizontal" className="h-full">
         <ResizablePanel defaultSize={40} minSize={25} maxSize={60}>
           {!mode && loadingText}
-          {mode && <ControlPanel styles={styles} setStyles={setStyles} cssText={cssText} setCssText={setCssText} initialMode={mode} mode={mode} onModeChange={setMode} storagePrefix={storagePrefix} />}
+          {mode && <ControlPanel styles={styles} setStyles={setStyles} cssText={cssText} setCssText={setCssText} initialMode={mode} mode={mode} onModeChange={setMode} storagePrefix={storagePrefix} apiPath={apiPath} />}
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={60} minSize={40}>
