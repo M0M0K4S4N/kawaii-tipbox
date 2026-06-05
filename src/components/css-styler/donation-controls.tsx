@@ -60,7 +60,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
                 />
               </div>
             </div>
-            <div>
+            {/* <div>
               <Label htmlFor="barBackground2">สีที่ 2</Label>
               <div className="mt-1">
                 <ColorPicker
@@ -68,14 +68,14 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
                   onChange={(value) => updateStyle('barBackground2', value)}
                 />
               </div>
-            </div>
+            </div> */}
             <div>
               <Label htmlFor="barRoundness">ความโค้งมน</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Slider
                   value={[parseInt(styles.barRoundness)]}
                   onValueChange={([value]) => updateStyle('barRoundness', `${value}px`)}
-                  max={25}
+                  max={35}
                   min={0}
                   step={1}
                   className="flex-1"
@@ -87,7 +87,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
                 />
               </div>
             </div>
-            <div>
+            {/* <div>
               <Label htmlFor="barBorder">ขนาดขอบ</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Slider
@@ -104,8 +104,8 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
                   className="w-20 text-xs"
                 />
               </div>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <Label htmlFor="barBorderColor">สีขอบ</Label>
               <div className="mt-1">
                 <ColorPicker
@@ -113,7 +113,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
                   onChange={(value) => updateStyle('barBorderColor', value)}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -148,7 +148,7 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
                 />
               </div>
             </div>
-            <div>
+            {/* <div>
               <Label htmlFor="progressRightBorder">ขนาดแต้มสีปลายหลอด</Label>
               <div className="flex items-center space-x-2 mt-1">
                 <Slider
@@ -165,8 +165,8 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
                   className="w-20 text-xs"
                 />
               </div>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <Label htmlFor="progressRightBorderColor">สีปลายหลอด</Label>
               <div className="mt-1">
                 <ColorPicker
@@ -174,12 +174,98 @@ export const DonationControls = ({ styles, setStyles }: DonationControlsProps) =
                   onChange={(value) => updateStyle('progressRightBorderColor', value)}
                 />
               </div>
+            </div> */}
+          </div>
+        </div>
+
+        {/* Goal Text */}
+        <div>
+          <h3 className="text font-semibold mb-3 text-muted-foreground">ข้อความเป้าหมาย</h3>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="goalTextColor">สีข้อความ</Label>
+              <div className="mt-1">
+                <ColorPicker
+                  value={styles.goalTextColor}
+                  onChange={(value) => updateStyle('goalTextColor', value)}
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="goalTextSize">ขนาดข้อความ</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Slider
+                  value={[parseInt(styles.goalTextSize)]}
+                  onValueChange={([value]) => updateStyle('goalTextSize', `${value}px`)}
+                  max={60}
+                  min={0}
+                  step={1}
+                  className="flex-1"
+                />
+                <Input
+                  value={styles.goalTextSize}
+                  onChange={(e) => updateStyle('goalTextSize', e.target.value)}
+                  className="w-20 text-xs"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="goalTextStrokeColor">สีขอบข้อความ</Label>
+              <div className="mt-1">
+                <ColorPicker
+                  value={styles.goalTextStrokeColor}
+                  onChange={(value) => updateStyle('goalTextStrokeColor', value)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Description Text */}
+        <div>
+          <h3 className="text font-semibold mb-3 text-muted-foreground">ข้อความอธิบาย</h3>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="descTextColor">สีข้อความ</Label>
+              <div className="mt-1">
+                <ColorPicker
+                  value={styles.descTextColor}
+                  onChange={(value) => updateStyle('descTextColor', value)}
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="descTextSize">ขนาดข้อความ</Label>
+              <div className="flex items-center space-x-2 mt-1">
+                <Slider
+                  value={[parseInt(styles.descTextSize)]}
+                  onValueChange={([value]) => updateStyle('descTextSize', `${value}px`)}
+                  max={48}
+                  min={0}
+                  step={1}
+                  className="flex-1"
+                />
+                <Input
+                  value={styles.descTextSize}
+                  onChange={(e) => updateStyle('descTextSize', e.target.value)}
+                  className="w-20 text-xs"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="descTextStrokeColor">สีขอบข้อความ</Label>
+              <div className="mt-1">
+                <ColorPicker
+                  value={styles.descTextStrokeColor}
+                  onChange={(value) => updateStyle('descTextStrokeColor', value)}
+                />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Emoji */}
-        <div>
+        <div className="hidden">
           <h3 className="text font-semibold mb-3 text-muted-foreground">อีโมจิ</h3>
           <div className="space-y-4">
             <div>

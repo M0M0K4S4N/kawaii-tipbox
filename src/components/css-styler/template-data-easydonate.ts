@@ -21,6 +21,11 @@ div.flex:nth-child(1)>h1:nth-child(1) {
   /* filter: drop-shadow(rgba(0, 0, 0, 0.6) 0px 4px 6px) !important; */
 }
 
+/* สีขอบหัวข้อ */
+#goal-stroke-filter feFlood {
+  flood-color: #000;
+}
+
 /* ข้อความคำอธิบาย */
 div.flex:nth-child(3) {
   font-weight: 500 !important;
@@ -34,6 +39,11 @@ div.flex:nth-child(3) {
   /* filter: drop-shadow(rgba(0, 0, 0, 0.6) 0px 4px 6px) !important; */
 }
 
+/* สีขอบคำอธิบาย */
+#desc-stroke-filter feFlood {
+  flood-color: #000;
+}
+
 /* จากเป้าหมาย */
 div.flex:nth-child(3)>p:nth-child(1) {}
 
@@ -41,6 +51,10 @@ div.flex:nth-child(3)>p:nth-child(1) {}
 div.flex:nth-child(3)>p:nth-child(2) {}
 
 /* พื้นหลัง */
+div.flex>div.flex>div:nth-child(1) {
+  border-radius: 9999px !important;
+}
+
 div.flex>div.flex>div:nth-child(2) {
   filter: drop-shadow(rgba(0, 0, 0, 0.6) 0px 4px 6px);
   background-color: color-mix(in oklab, #000 40%, transparent) !important;
@@ -54,7 +68,7 @@ div.flex>div.flex>div:nth-child(2)>div>h1 {
 
 /* หลอดความคืบหน้า */
 div.flex>div.flex>div:nth-child(2)>div>div {
-  background-color: rgb(14, 165, 233) !important;
+  background: rgb(14, 164, 233) !important;
   animation-duration: 300ms !important;
   border-width: 1px !important;
   border-radius: 9999px !important;

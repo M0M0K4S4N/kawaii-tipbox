@@ -31,17 +31,25 @@ export interface DonationStyles {
   emojiSize: string;
 
   fixOverflow: boolean;
+
+  goalTextColor: string;
+  goalTextSize: string;
+  goalTextStrokeColor: string;
+
+  descTextColor: string;
+  descTextSize: string;
+  descTextStrokeColor: string;
 }
 
 export const defaultStyles: DonationStyles = {
-  barBackground: '#aaaaaa',
-  barBackground2: '#888888',
-  barRoundness: '0px',
+  barBackground: '#000',
+  barBackground2: '#000',
+  barRoundness: '25px',
   barBorder: '0px',
   barBorderColor: '#ffffff',
 
-  progressBackground: '#71e251',
-  progressBackground2: '#509e39',
+  progressBackground: '#0EA4E9',
+  progressBackground2: '#0EA4E9',
   progressRoundness: '0px',
   progressTextColor: '#ffffff',
 
@@ -53,6 +61,14 @@ export const defaultStyles: DonationStyles = {
   emojiSize: '24pt',
 
   fixOverflow: true,
+
+  goalTextColor: '#ffffff',
+  goalTextSize: '36px',
+  goalTextStrokeColor: '#000000',
+
+  descTextColor: '#ffffff',
+  descTextSize: '24px',
+  descTextStrokeColor: '#000000',
 };
 
 export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMode, mode: externalMode, onModeChange, storagePrefix = '', apiPath }: {
@@ -72,46 +88,62 @@ export const ControlPanel = ({ styles, setStyles, cssText, setCssText, initialMo
   const [showRevisions, setShowRevisions] = useState(false);
 
   const generateCSS = useCallback(() => {
-    let cssText: string = `.DonateGoal_progress__text {
-  color: ${styles.progressTextColor};
+    let cssTextEasydonate: string = `
+/* หัวข้อ */
+div.flex:nth-child(1)>h1:nth-child(1) {
+  color: ${styles.goalTextColor} !important;
+  font-size: ${styles.goalTextSize} !important;
+  line-height: ${styles.goalTextSize} !important;
 }
 
-.DonateGoal_style__goal {
-  color: ${styles.progressTextColor};
+/* สีขอบหัวข้อ */
+#goal-stroke-filter feFlood {
+  flood-color: ${styles.goalTextStrokeColor} !important;
 }
 
-.DonateGoal_progress__done::after {
-  content: "${styles.emoji}";
-  float: right;
-  margin-right: ${styles.emojiPosition};
-  font-size: ${styles.emojiSize};
+/* ข้อความคำอธิบาย */
+div.flex:nth-child(3) {
+  font-weight: 500 !important;
+  color: ${styles.descTextColor} !important;
+  font-size: ${styles.descTextSize} !important;
+  filter: url("#desc-stroke-filter") drop-shadow(rgba(0, 0, 0, 0.6) 0px 4px 6px) !important;
 }
 
-.DonateGoal_progress__progress {
-  background: linear-gradient(180deg, ${styles.barBackground}, ${styles.barBackground2});
-  border-radius: ${styles.barRoundness};
-  border: ${styles.barBorder} solid ${styles.barBorderColor};
+/* สีขอบคำอธิบาย */
+#desc-stroke-filter feFlood {
+  flood-color: ${styles.descTextStrokeColor} !important;
 }
 
-.DonateGoal_progress__done {
-  background: linear-gradient(180deg, ${styles.progressBackground}, ${styles.progressBackground2});
-  border-right: ${styles.progressRightBorder} solid ${styles.progressRightBorderColor};
-  border-radius: ${styles.barRoundness};
-  height: 100% !important;
+/* พื้นหลัง */
+div.flex>div.flex>div:nth-child(2)>div:nth-child(1) {
+  border-radius: ${styles.barRoundness} !important;
+}
+div.flex>div.flex>div:nth-child(2) {
+  background: color-mix(in oklab, ${styles.barBackground} 40%, transparent) !important;
+  border-radius: ${styles.barRoundness} !important;
+}
+
+/* เปอร์เซ็๋น */
+div.flex>div.flex>div:nth-child(2)>div>h1 {
+  color: ${styles.progressTextColor} !important;
+  font-size: 2.25rem !important;
+}
+
+/* หลอดความคืบหน้า */
+div.flex>div.flex>div:nth-child(2)>div>div {
+  background: linear-gradient(180deg, ${styles.progressBackground}, ${styles.progressBackground2}) !important;
+  border-radius: ${styles.barRoundness} !important;
+}
+
+/* เปอร์เซ็๋น เมื่อหลอดความคืบหน้าบัง */
+div.flex>div.flex>div:nth-child(2)>div>div>h1 {
+  color: ${styles.progressTextColor} !important;
+  font-size: 2.25rem !important;
+  margin-top: 0.16rem !important;
 }
 `;
-
-if (styles.fixOverflow) {
-  cssText += `
-/* Fix overflow */
-.DonateGoal_style__goal {
-  width: 98%;
-  margin: auto;
-}
-`;
-}
-
-    return cssText;
+    // let cssText = cssTextEasydonate;
+    return cssTextEasydonate;
   }, [styles]);
 
   useEffect(() => {
