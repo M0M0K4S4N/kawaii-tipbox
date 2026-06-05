@@ -44,7 +44,7 @@ export interface DonationStyles {
 export const defaultStyles: DonationStyles = {
   barBackground: '#000',
   barBackground2: '#000',
-  barRoundness: '25px',
+  barRoundness: '35px',
   barBorder: '0px',
   barBorderColor: '#ffffff',
 
