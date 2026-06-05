@@ -21,10 +21,8 @@ const themes = [
 ];
 
 let aiModels = [
-  { value: 'google/gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
-  { value: 'google/gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
-  { value: 'google/gemini-3-flash-preview', label: 'Gemini 3 Flash Preview' },
-  { value: 'google/gemini-3-pro-preview', label: 'Gemini 3 Pro Preview' },
+  { value: 'deepseek/deepseek-v4-flash', label: 'DeepSeek V4 Flash' },
+  { value: 'xiaomi/mimo-v2.5', label: 'Xiaomi: MiMo-V2.5' },
 ];
 
 // filter aiModels from NEXT_PUBLIC_OPENROUTER_ALLOWED_MODEL
@@ -40,7 +38,7 @@ export const AdvancedEditor = ({ css, onChange, apiPath = '/api/ai-css/tipme' }:
   const [aiPrompt, setAiPrompt] = useState('');
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string>('');
-  const [selectedModel, setSelectedModel] = useState('google/gemini-2.5-flash');
+  const [selectedModel, setSelectedModel] = useState('deepseek/deepseek-v4-flash');
 
   // Check if AI is enabled
   const isAiEnabled = process.env.NEXT_PUBLIC_AI_ENABLED !== 'false';
@@ -212,7 +210,7 @@ export const AdvancedEditor = ({ css, onChange, apiPath = '/api/ai-css/tipme' }:
                 value={aiPrompt}
                 onChange={(e) => setAiPrompt(e.target.value)}
                 onKeyDown={handleAiKeyPress}
-                placeholder="Gemini ช่วยด้วย (เช่น 'เปลี่ยนสีเป็นธีมสีฟ้า')"
+                placeholder="AI ช่วยด้วย (เช่น 'เปลี่ยนสีเป็นธีมสีฟ้า')"
                 disabled={isAiLoading}
                 className="pr-10"
               />
