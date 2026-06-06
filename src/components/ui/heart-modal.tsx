@@ -112,7 +112,7 @@ export function HeartModalWrapper({ children, open, onOpenChange }: HeartModalPr
             
             <div className="space-y-3 text-sm">
               <p className="flex items-center justify-center flex-wrap gap-1.5">
-                <span>Made with ❤️, source opened on</span>
+                <span>Made with ❤️, source available on</span>
                 <a
                   href="https://github.com/M0M0K4S4N/kawaii-tipbox"
                   target="_blank"
